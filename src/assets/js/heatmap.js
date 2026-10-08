@@ -27,7 +27,7 @@ function mk(tag, attrs, parent) {
 function bbox(...paths) {
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const d of paths) {
-    const n = d.match(/-?\d+(?:\.\d+)?/g);
+    const n = d.match(/-?\d+(?:\.\d+)?/g) || [];
     for (let i = 0; i < n.length; i += 2) {
       const x = +n[i], y = +n[i + 1];
       if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
@@ -137,8 +137,9 @@ async function load() {
   const [g, attrs] = await Promise.all([get(cfg.geo), get(cfg.attrs)]);
   geo = g;
   for (const V of M.views) {
-    const list = attrs[V.id].filter(u => g[V.id][u.id]);
-    list.forEach(u => { u.shape = g[V.id][u.id]; u.view = V.id; });
+    // Every record stays: a few tiny areas have no drawable shape but still count in legends.
+    const list = attrs[V.id];
+    list.forEach(u => { u.shape = g[V.id][u.id] || ''; u.view = V.id; });
     data[V.id] = { list, byId: new Map(list.map(u => [u.id, u])) };
   }
 }
@@ -278,6 +279,7 @@ function setupZoom() {
 }
 
 function zoomToBox([x0, y0, x1, y1], maxK = 8, animate = true) {
+  if (!Number.isFinite(x0)) return;
   const kk = Math.max(1, Math.min(maxK, .88 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
   const t = d3.zoomIdentity.translate(W / 2, H / 2).scale(kk).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
   const fitted = zoom.constrain()(t, [[0, 0], [W, H]], zoom.translateExtent());
