@@ -1,0 +1,109 @@
+{
+ "acs/acsdt5y2024-b11001.dat": {
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b11001.dat",
+  "bytes": 45827971,
+  "sha256": "77200c3d9c0d99773bc7f78208bc96f25170e5d4d175a5de320620b478ceaff5",
+  "fetched": "2026-10-08"
+ },
+ "acs/acsdt5y2024-b19013.dat": {
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b19013.dat",
+  "bytes": 17917916,
+  "sha256": "b25a176b0e6c339b6f3a2a0d3d8446bf06f5f080b4395993ec9a8313efb1c229",
+  "fetched": "2026-10-08"
+ },
+ "acs/acsdt5y2024-b25003.dat": {
+  "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25003.dat",
+  "bytes": 26901770,
+  "sha256": "68e963e1ed60fcf6b0658579cefc6498b7a9eb780b9f3e87fd1b9775c4d4ac6c",
+  "fetched": "2026-10-08"
+ },
+ "census/2024_Gaz_counties_national.zip": {
+  "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_counties_national.zip",
+  "bytes": 141679,
+  "sha256": "3c337402b5c6e8d5aa26b4278ccf4edc8989f2683765b3ffbf22296cdb2df3a0",
+  "fetched": "2026-10-08"
+ },
+ "census/cb_2020_us_zcta520_500k.zip": {
+  "url": "https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_zcta520_500k.zip",
+  "bytes": 66655314,
+  "sha256": "c69a4ede8aebebfc7ed3a98a9075c6aaa1b75d514a129bc5c662fd806d2f3d17",
+  "fetched": "2026-10-08"
+ },
+ "census/cb_2024_us_county_500k.zip": {
+  "url": "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_county_500k.zip",
+  "bytes": 11626066,
+  "sha256": "da4051717caec55c75e3748c3608c2a3dbde8d1ff401bbaf4f952e3c3fb63ef1",
+  "fetched": "2026-10-08"
+ },
+ "census/tab20_zcta520_county20_natl.txt": {
+  "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
+  "bytes": 6821287,
+  "sha256": "3ed41278d637dc249e0323306f68be8a6c234e3090f4de88ef328dee71aeaaaf",
+  "fetched": "2026-10-08"
+ },
+ "census/tab20_zcta520_tabblock20_st40.txt": {
+  "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_tabblock20_natl.txt",
+  "bytes": 23639289,
+  "sha256": "234d48a87797cc21ec85216ed13142ac06f57832d5b3ed88a0776ad26583ba48",
+  "fetched": "2026-10-08",
+  "note": "filtered to block GEOIDs starting 40"
+ },
+ "census/tl_2020_40_tabblock20.zip": {
+  "url": "https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_40_tabblock20.zip",
+  "bytes": 199426822,
+  "sha256": "7b0445a7d613eab02e378b50326bf3e69c8f53cf7851a0a0ad4b1c2c40490f45",
+  "fetched": "2026-10-08"
+ },
+ "census/tl_2020_us_zcta520.zip": {
+  "url": "https://www2.census.gov/geo/tiger/TIGER2020/ZCTA520/tl_2020_us_zcta520.zip",
+  "bytes": 527995578,
+  "sha256": "fb91d692a3140a366aa0c188f081f44cc860cccd693859858f997cf14afead9b",
+  "fetched": "2026-10-08"
+ },
+ "geonames/US.zip": {
+  "url": "https://download.geonames.org/export/zip/US.zip",
+  "bytes": 634329,
+  "sha256": "7e34efabd0a38185ec9897589b5edffa57cb3ad9be74a995da07e1c719cf54cf",
+  "fetched": "2026-10-08"
+ },
+ "noaa/1950-2025_actual_tornadoes.csv": {
+  "url": "https://www.spc.noaa.gov/wcm/data/1950-2025_actual_tornadoes.csv",
+  "bytes": 9023445,
+  "sha256": "2b2679ead1920ab96eaa390baeb41aeeaeef49d067f613dfcc5e233403b82d76",
+  "fetched": "2026-10-08"
+ },
+ "noaa/ok_hail_1990_2025.csv": {
+  "url": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
+  "bytes": 18121762,
+  "sha256": "812ca8a12d93cb59307b069fb1d00157941d6166296a8b9746a77a1da496ca5a",
+  "fetched": "2026-10-08",
+  "note": "StormEvents_details-ftp_v1.0_d1990_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1991_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1992_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1993_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1994_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1995_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1996_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1997_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1998_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d1999_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2000_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2001_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2002_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2003_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2004_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2005_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2006_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2007_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2008_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2009_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2010_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2011_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2012_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2013_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2014_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2015_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2016_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2017_c20260519.csv.gz, StormEvents_details-ftp_v1.0_d2018_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2019_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2020_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2021_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2022_c20260625.csv.gz, StormEvents_details-ftp_v1.0_d2023_c20260323.csv.gz, StormEvents_details-ftp_v1.0_d2024_c20260728.csv.gz, StormEvents_details-ftp_v1.0_d2025_c20260819.csv.gz; filtered to OKLAHOMA hail"
+ },
+ "nri/nri_tracts_OK.json": {
+  "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
+  "bytes": 1143595,
+  "sha256": "08936f51cca10e1183c0bea4214505cda243c37eb4928007ce8c4bf25465f9fa",
+  "fetched": "2026-10-08",
+  "note": "STATEABBRV='OK'"
+ },
+ "nri/nri_tracts_national.json": {
+  "url": "https://services.arcgis.com/XG15cJAlne2vxtgt/arcgis/rest/services/National_Risk_Index_Census_Tracts/FeatureServer/0/query",
+  "bytes": 71853498,
+  "sha256": "ed8fc9b73d600be8d08185f2268e24adc48d083562e619cc950edd601d08158c",
+  "fetched": "2026-10-08",
+  "note": "all tracts"
+ },
+ "usfs/RDS-2020-0060-2__CONUS_HUCount.zip": {
+  "url": "https://www.fs.usda.gov/rds/archive/products/RDS-2020-0060-2/RDS-2020-0060-2__CONUS_HUCount.zip",
+  "bytes": 488102647,
+  "sha256": "2b7e15dbd6aa069b5c909b2e2f0a625a6d1d38b50cfbeefd470fa669cad6bc87",
+  "fetched": "2026-10-08"
+ },
+ "usfs/RPS_CONUS.tif.ovr": {
+  "url": "https://usfs-public.box.com/shared/static/88tv8byot0t22o9p1eqlrfqco3z5ouvf.zip",
+  "bytes": 8957454869,
+  "sha256": "caa024b1f30206cb38138db107678146c2a3218e73b9106f9a57e389e6c2e369",
+  "fetched": "2026-10-08",
+  "note": "member RPS_CONUS/RPS_CONUS.tif.ovr (60 m overview)"
+ }
+}

@@ -1,0 +1,5 @@
+# Data pipeline dependencies (Python 3.12). Install: uv venv --python 3.12 && uv pip install -r pipeline/requirements.txt
+numpy==2.2.6
+rasterio==1.4.3
+pyproj==3.7.1
+pyshp==2.3.1

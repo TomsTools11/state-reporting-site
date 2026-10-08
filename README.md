@@ -35,6 +35,15 @@ entry at the top of the config's `editions` list.
 
 ## Data
 
-`pipeline/` holds the data scripts and `pipeline/sources.md` lists every dataset and release.
+`pipeline/` builds report data from public sources for any state (`--state OK`, `--state TX`, ...).
+`pipeline/sources.md` explains the method and lists every dataset and release, and
+`pipeline/sources.lock.json` pins the exact files used.
+
+```bash
+uv venv --python 3.12 && uv pip install -r pipeline/requirements.txt
+.venv/bin/python pipeline/usfs.py --state OK
+.venv/bin/python pipeline/home_risk.py --state OK --edition 2026-10
+```
+
 `npm run check` compares the site data with the original map it was extracted from (that file is
 kept outside the repo).

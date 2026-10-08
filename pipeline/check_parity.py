@@ -1,14 +1,19 @@
-"""Check site data against a reference before publishing.
+"""Check report data against a reference before publishing.
 
-Phase 1 (default): compares src/data for the Oklahoma Home Risk report with the data embedded
-in the original single-file map, record by record and field by field, and recomputes the
-headline figures the way the original page did. Exits non-zero on any difference.
+Original mode (default): compares src/data for the Oklahoma Home Risk report with the data embedded
+in the original single-file map, record by record and field by field, and recomputes the headline
+figures the way the original page did.
+  python3 -I pipeline/check_parity.py [path/to/original.html]
 
-Usage: python3 -I pipeline/check_parity.py [path/to/original.html]
-Phase 2 adds edition-to-edition comparison (counts, nulls, tier shifts).
+Edition mode: compares a pipeline build with a published edition (or two editions), field by field,
+and summarizes tier changes.
+  python3 -I pipeline/check_parity.py edition pipeline/out/ok/home-risk/2026-10 src/data/ok/home-risk/2026-10 [--skip f1,f2]
+
+Exits non-zero on any difference outside skipped fields.
 """
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,8 +25,7 @@ EDITION = "2026-10"
 SOURCE = ROOT / "_source/Oklahoma_Home_Risk_Map_1.html"
 
 
-def main():
-    src = sys.argv[1] if len(sys.argv) > 1 else SOURCE
+def check_original(src):
     if not Path(src).exists():
         raise SystemExit(f"Original map not found at {src}. It lives in _source/, which is not in git.")
     D = load_original(src)
@@ -90,5 +94,52 @@ def main():
     print("PASS: site data matches the original exactly")
 
 
+def check_edition(built, published, skip=()):
+    built, published = Path(built), Path(published)
+    a = json.loads((built / "attrs.json").read_text())
+    b = json.loads((published / "attrs.json").read_text())
+    failed = False
+    for kind in ("zip", "county"):
+        new = {r["id"]: r for r in a[kind]}
+        old = {r["id"]: r for r in b[kind]}
+        missing, extra = sorted(set(old) - set(new)), sorted(set(new) - set(old))
+        if missing or extra:
+            failed = True
+            print(f"{kind}: missing {missing[:10]} extra {extra[:10]}")
+        fields = sorted({k for r in old.values() for k in r})
+        print(f"{kind}: {len(set(old) & set(new))} records in both")
+        for f in fields:
+            diffs = [(i, old[i].get(f), new[i].get(f)) for i in sorted(set(old) & set(new)) if old[i].get(f) != new[i].get(f)]
+            status = "skipped" if f in skip else "ok" if not diffs else "DIFF"
+            if diffs and f not in skip:
+                failed = True
+            if diffs or f in skip:
+                print(f"  {f:18} {status:7} {len(diffs)} differ  e.g. {diffs[:3]}")
+        for f in ("sevTier", "fireTier"):
+            moved = Counter((old[i].get(f), new[i].get(f)) for i in set(old) & set(new) if old[i].get(f) != new[i].get(f))
+            if moved:
+                print(f"  {f} changes (published -> built): {dict(moved)}")
+    ma = json.loads((built / "meta.json").read_text())
+    mb = json.loads((published / "meta.json").read_text())
+    derived = {"risingZips": "sevTierChange"}  # key figures that follow a field-level skip
+    for k in ("stats", "regions"):
+        a, b = dict(ma.get(k) or {}), dict(mb.get(k) or {})
+        for stat, field in derived.items():
+            if field in skip and k == "stats":
+                print(f"meta.stats.{stat}: skipped (built {a.pop(stat, None)}, published {b.pop(stat, None)})")
+        if a != b:
+            print(f"meta.{k}: built {a} published {b}")
+            failed = True
+    print("FAIL" if failed else "PASS: identical outside skipped fields")
+    return not failed
+
+
 if __name__ == "__main__":
-    main()
+    args = sys.argv[1:]
+    if args and args[0] == "edition":
+        skip = set()
+        if "--skip" in args:
+            skip = set(args[args.index("--skip") + 1].split(","))
+        ok = check_edition(args[1], args[2], skip)
+        sys.exit(0 if ok else 1)
+    check_original(args[0] if args else SOURCE)
