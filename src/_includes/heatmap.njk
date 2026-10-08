@@ -2,7 +2,7 @@
 {#- Report template for interactive heat maps. Everything report-specific comes from the
     report config (src/_data/reports/<id>.json) and the edition's meta.json. -#}
 
-{% block title %}{{ report.title }}{% if not isLatest %}, {{ edition.label }}{% endif %} · GOAL{% endblock %}
+{% block title %}{{ report.title }} · GOAL{% endblock %}
 {% block description %}{{ report.summary }}{% endblock %}
 {% block head %}<link rel="stylesheet" href="/assets/css/heatmap.css">{% endblock %}
 
@@ -28,9 +28,6 @@
 {%- set map = report.map -%}
 {%- set firstLayer = map.layers[0] -%}
 {%- set firstView = map.views[0] -%}
-{% if not isLatest %}
-<p class="edition-note">This is the {{ edition.label }} edition. <a href="{{ latestUrl | noslash }}">See the latest edition</a>.</p>
-{% endif %}
 <header class="intro">
   <p class="sub">{{ report.summary }}</p>
 </header>
@@ -98,9 +95,7 @@
     <p><b>{{ m.title }}</b> {{ m.text }}</p>
     {%- endfor %}
   </div>
-  <p class="editions">Editions:
-    {%- for e in report.editions %} <a href="/{{ report.state }}/{{ report.slug }}/{{ e.id }}">{{ e.label }}</a>{% if not loop.last %},{% endif %}{% endfor %}.
-    Built from public data only.</p>
+  <p class="editions">{{ edition.label }} edition. Built from public data only.</p>
 </section>
 
 {%- set clientConfig = { geo: report.geo, attrs: edition.data + "attrs.json", map: map, detail: report.detail, regions: report.regions } %}

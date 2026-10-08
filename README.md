@@ -8,8 +8,7 @@ belong in this repo.
 |---|---|
 | `/` | All reports, grouped by state |
 | `/ok` | Oklahoma reports |
-| `/ok/home-risk` | Oklahoma Home Risk Map, latest edition |
-| `/ok/home-risk/2026-10` | October 2026 edition (frozen) |
+| `/ok/home-risk` | Oklahoma Home Risk Map (current edition) |
 
 Report links can open on a layer, view, area or region, for example
 `/ok/home-risk?layer=fire&view=county&county=comanche` or `/ok/home-risk?region=southwest`.
@@ -30,8 +29,11 @@ npm run build    # writes _site/
    shapes in `src/data/<state>/geo-<vintage>.json`.
 3. Add the state to `src/_data/site.json` if it is new.
 
-No template, script or stylesheet changes are needed. A new edition is a new data folder plus an
-entry at the top of the config's `editions` list.
+No template, script or stylesheet changes are needed.
+
+Only the current edition is live. To release a new one, publish its data folder, point the config's
+`edition` at it, and delete the old folder (git history keeps it). Old dated links such as
+`/ok/home-risk/2026-10` redirect to the current report.
 
 ## Data
 

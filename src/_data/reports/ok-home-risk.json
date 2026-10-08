@@ -17,9 +17,7 @@
     "geography": ["zip", "county"]
   },
   "geo": "/data/ok/geo-2020.json",
-  "editions": [
-    { "id": "2026-10", "label": "October 2026", "data": "/data/ok/home-risk/2026-10/" }
-  ],
+  "edition": { "id": "2026-10", "label": "October 2026", "data": "/data/ok/home-risk/2026-10/" },
   "map": {
     "ariaLabel": "Map of Oklahoma colored by risk tier",
     "weight": "ownerHomes",

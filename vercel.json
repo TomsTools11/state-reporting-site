@@ -6,6 +6,9 @@
   "outputDirectory": "_site",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/:state/:report/:edition(\\d{4}-\\d{2})", "destination": "/:state/:report", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)",

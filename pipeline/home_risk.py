@@ -6,8 +6,8 @@ Usage:
   .venv/bin/python pipeline/home_risk.py --state OK --edition 2027-01 --publish
 
 Writes attrs.json and meta.json to pipeline/out/<st>/home-risk/<edition>/ for review, or to
-src/data/<st>/home-risk/<edition>/ with --publish. Published editions are frozen: --publish refuses to
-overwrite an existing edition folder.
+src/data/<st>/home-risk/<edition>/ with --publish (never over an existing folder). The site shows one
+edition per report: point the report config's `edition` at the new folder and delete the old one.
 
 Method (matches the October 2026 Oklahoma edition; see pipeline/sources.md):
 - Severe weather: FEMA National Risk Index tract national percentiles of expected annual loss rate for

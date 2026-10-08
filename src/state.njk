@@ -25,7 +25,7 @@ permalink: "/{{ st.id }}/"
 
 {% block content %}
 <section class="block" aria-labelledby="rep-title">
-  <div class="bhead"><h2 id="rep-title">{{ st.name }} reports</h2><p>Latest editions</p></div>
+  <div class="bhead"><h2 id="rep-title">{{ st.name }} reports</h2><p>Current editions</p></div>
   <div class="rgrid">
     {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
   </div>

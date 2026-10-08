@@ -1,7 +1,5 @@
 /* Heat map report template. */
 
-.edition-note { background: var(--off); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; margin-bottom: 18px }
-
 /* Controls */
 .controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; margin-bottom: 14px }
 .ctl { display: grid; gap: 5px; min-width: 0 }

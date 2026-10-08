@@ -12,7 +12,8 @@ uv venv --python 3.12 && uv pip install -r pipeline/requirements.txt   # once
 .venv/bin/python pipeline/check_parity.py edition pipeline/out/ok/home-risk/2026-10 src/data/ok/home-risk/2026-10
 ```
 
-`home_risk.py --publish` writes a new edition into `src/data/`; published editions are never overwritten.
+`home_risk.py --publish` writes a new edition folder into `src/data/` (never over an existing one). The site
+shows one edition per report: point the report config's `edition` at the new folder and delete the old one.
 Edition settings (data releases and storm periods) live in `EDITIONS` at the top of `home_risk.py`.
 
 ## Home risk map
