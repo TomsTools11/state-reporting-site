@@ -1,0 +1,11 @@
+# Original working files and planning notes name clients: never commit them
+_source/
+PLAN.md
+# Raw dataset downloads are large and reproducible from pipeline/sources.md
+pipeline/raw/
+.env*
+.vercel
+_site/
+node_modules/
+__pycache__/
+.DS_Store

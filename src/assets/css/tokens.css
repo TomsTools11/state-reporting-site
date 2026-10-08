@@ -1,0 +1,57 @@
+/* GOAL design tokens. Brand values come from the goal-client-report design tokens
+   (GOAL Platform Style Guide v1.0). Map colors are data colors, not brand colors. */
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Brand */
+  --blue: #057BE5;
+  --blue-hover: #0C6EC5;
+  --blue-tint: #E6F1FD;
+  --sky: #2D90EE;
+  --mint: #3BEECA;
+  --navy: #00172D;
+  --navy-deep: #001020;
+
+  /* Text and surfaces */
+  --ink: #0F1B2D;
+  --body: #2B3442;
+  --muted: #6A7482;
+  --white: #FFFFFF;
+  --off: #F8FAFC;
+  --gray: #EFF2F7;
+  --divider: #EDF1F5;
+  --line: #E2E8F0;
+
+  /* Type */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Shape and depth */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 14px;
+  --elev-1: 0 2px 6px rgba(0, 23, 45, .06);
+  --elev-3: 0 12px 32px rgba(0, 23, 45, .16);
+  --focus: var(--blue);
+
+  /* Map: risk tiers, low to extreme */
+  --sev-0: #f2c4ad; --sev-1: #e08868; --sev-2: #bd4535; --sev-3: #6e1a1f;
+  --wf-0: #f3dca6; --wf-1: #dfa94a; --wf-2: #a8661a; --wf-3: #5c330b;
+
+  /* Map: status and structure */
+  --prime: var(--blue);
+  --review: #8b939e;
+  --other: #cfd6de;
+  --nodata: #e4e7eb;
+  --map-ground: #e4e7eb;
+  --zip-edge: #ffffff;
+  --county-edge: #2e343c;
+  --state-edge: var(--ink);
+  --rise: #0b0f14;
+}

@@ -1,0 +1,33 @@
+---
+pagination:
+  data: library
+  size: 1
+  alias: st
+permalink: "/{{ st.id }}/"
+---
+{% extends "base.njk" %}
+
+{% block title %}{{ st.name }} reports · GOAL{% endblock %}
+
+{% block side %}
+<a class="back" href="/">&larr; All states</a>
+<p class="eb">{{ st.postal }}</p>
+<h1>{{ st.name }}</h1>
+<p class="who">{{ site.tagline }}</p>
+<nav aria-label="Reports">
+  {%- for p in st.reports %}
+  <a href="{{ p.url | noslash }}"><span class="dot"></span>{{ p.report.shortTitle }}</a>
+  {%- endfor %}
+</nav>
+{% endblock %}
+
+{% block printhead %}<p class="pt-title">{{ st.name }} reports</p>{% endblock %}
+
+{% block content %}
+<section class="block" aria-labelledby="rep-title">
+  <div class="bhead"><h2 id="rep-title">{{ st.name }} reports</h2><p>Latest editions</p></div>
+  <div class="rgrid">
+    {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
+  </div>
+</section>
+{% endblock %}

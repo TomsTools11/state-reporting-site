@@ -1,0 +1,9 @@
+{#- Expects `p`: a latest-edition entry from reportPages. -#}
+<a class="rcard" href="{{ p.url | noslash }}">
+  <span class="rc-tags">{{ taxonomy.line[p.report.tags.line] }} · {{ taxonomy.format[p.report.tags.format] }}</span>
+  <span class="rc-title">{{ p.report.title }}</span>
+  <span class="rc-text">{{ p.report.card }}</span>
+  <span class="rc-meta">{{ p.edition.label }} edition
+    {%- for peril in p.report.tags.perils %} · {{ taxonomy.perils[peril] }}{% endfor -%}
+  </span>
+</a>

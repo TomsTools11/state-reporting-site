@@ -1,0 +1,7 @@
+{
+  "name": "GOAL State Reports",
+  "tagline": "Weather and market reports by state, built from public data.",
+  "states": {
+    "ok": { "name": "Oklahoma", "postal": "OK" }
+  }
+}

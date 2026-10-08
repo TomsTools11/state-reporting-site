@@ -1,0 +1,29 @@
+---
+permalink: /
+---
+{% extends "base.njk" %}
+
+{% block side %}
+<p class="eb">GOAL</p>
+<h1>State Reports</h1>
+<p class="who">{{ site.tagline }}</p>
+<nav aria-label="States">
+  {%- for st in library %}
+  <a href="/{{ st.id }}"><span class="dot"></span>{{ st.name }}</a>
+  {%- endfor %}
+</nav>
+{% endblock %}
+
+{% block content %}
+<header class="intro">
+  <p class="sub">Reports on weather risk and the homeowners market, by state. Each report is built from public data and dated by edition.</p>
+</header>
+{%- for st in library %}
+<section class="block" aria-labelledby="st-{{ st.id }}">
+  <div class="bhead"><h2 id="st-{{ st.id }}"><a href="/{{ st.id }}">{{ st.name }}</a></h2><p>{{ st.reports | length }} report{{ "" if st.reports | length == 1 else "s" }}</p></div>
+  <div class="rgrid">
+    {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
+  </div>
+</section>
+{%- endfor %}
+{% endblock %}

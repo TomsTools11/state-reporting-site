@@ -1,0 +1,14 @@
+---js
+{
+  pagination: { data: "reportPages", size: 1, alias: "pg" },
+  permalink: "{{ pg.url }}",
+  eleventyComputed: {
+    report: data => data.pg.report,
+    edition: data => data.pg.edition,
+    meta: data => data.pg.meta,
+    isLatest: data => data.pg.isLatest,
+    latestUrl: data => data.pg.latestUrl
+  }
+}
+---
+{% extends report.template + ".njk" %}

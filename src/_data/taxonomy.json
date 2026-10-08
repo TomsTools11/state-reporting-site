@@ -1,0 +1,30 @@
+{
+  "line": {
+    "home": "Home",
+    "auto": "Auto",
+    "commercial": "Commercial",
+    "farm": "Farm"
+  },
+  "perils": {
+    "severe-storm": "Severe storm",
+    "wildfire": "Wildfire",
+    "flood": "Flood",
+    "winter-storm": "Winter storm",
+    "tropical": "Tropical",
+    "heat-drought": "Heat and drought"
+  },
+  "context": {
+    "market": "Market and demographics",
+    "insurance-market": "Insurance market"
+  },
+  "format": {
+    "risk-map": "Risk map",
+    "storm-recap": "Storm recap",
+    "market-brief": "Market brief"
+  },
+  "geography": {
+    "zip": "ZIP",
+    "county": "County",
+    "state": "State"
+  }
+}

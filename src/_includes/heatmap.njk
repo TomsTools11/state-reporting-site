@@ -1,0 +1,113 @@
+{% extends "base.njk" %}
+{#- Report template for interactive heat maps. Everything report-specific comes from the
+    report config (src/_data/reports/<id>.json) and the edition's meta.json. -#}
+
+{% block title %}{{ report.title }}{% if not isLatest %}, {{ edition.label }}{% endif %} · GOAL{% endblock %}
+{% block description %}{{ report.summary }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="/assets/css/heatmap.css">{% endblock %}
+
+{% block side %}
+<a class="back" href="/{{ report.state }}">&larr; {{ site.states[report.state].name }} reports</a>
+<p class="eb">{{ report.eyebrow }}</p>
+<h1>{{ report.title }}</h1>
+<p class="who"><b>{{ edition.label }} edition</b><br>Data from {{ report.sourcesShort }}</p>
+<nav aria-label="On this page">
+  <a href="#map"><span class="dot"></span>Map</a>
+  <a href="#key-figures"><span class="dot"></span>Key figures</a>
+  <a href="#methods"><span class="dot"></span>Methods and sources</a>
+</nav>
+{% endblock %}
+
+{% block printhead %}
+<p class="pt-eb">{{ report.eyebrow }}</p>
+<p class="pt-title">{{ report.title }}</p>
+<p class="pt-meta">{{ edition.label }} edition · Data from {{ report.sourcesShort }}</p>
+{% endblock %}
+
+{% block content %}
+{%- set map = report.map -%}
+{%- set firstLayer = map.layers[0] -%}
+{%- set firstView = map.views[0] -%}
+{% if not isLatest %}
+<p class="edition-note">This is the {{ edition.label }} edition. <a href="{{ latestUrl | noslash }}">See the latest edition</a>.</p>
+{% endif %}
+<header class="intro">
+  <p class="sub">{{ report.summary }}</p>
+</header>
+
+<section class="block" id="map" aria-labelledby="mapTitle">
+  <div class="controls" role="group" aria-label="Map controls">
+    <div class="ctl"><span id="lbl-layer">Layer</span>
+      <div class="seg" data-control="layer" role="group" aria-labelledby="lbl-layer">
+        {%- for l in map.layers %}<button type="button" data-v="{{ l.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ l.label }}</button>{% endfor -%}
+      </div>
+    </div>
+    <div class="ctl"><span id="lbl-view">View</span>
+      <div class="seg" data-control="view" role="group" aria-labelledby="lbl-view">
+        {%- for v in map.views %}<button type="button" data-v="{{ v.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ v.label }}</button>{% endfor -%}
+      </div>
+    </div>
+    {%- for o in map.overlays %}
+    <label class="check"><input type="checkbox" data-overlay="{{ o.id }}"> {{ o.label }}</label>
+    {%- endfor %}
+    <div class="ctl search"><label for="q">{{ map.search.label }}</label>
+      <input id="q" type="search" placeholder="{{ map.search.placeholder }}" autocomplete="off" enterkeyhint="search">
+    </div>
+  </div>
+
+  <div class="mapgrid">
+    <div class="panel mapbox" id="mapbox">
+      <h2 id="mapTitle">{{ firstLayer.title }} {{ firstView.titleSuffix }}</h2>
+      <p class="note" id="mapNote">{{ firstLayer.note }}</p>
+      <div class="mapframe">
+        <svg class="map" id="mapSvg" role="img" aria-label="{{ map.ariaLabel }}" viewBox="0 0 1000 525"></svg>
+        <div class="zoom" role="group" aria-label="Zoom">
+          <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+          <button type="button" data-zoom="out" aria-label="Zoom out">&minus;</button>
+          <button type="button" data-zoom="reset" aria-label="Show the whole state">Fit</button>
+        </div>
+        <p class="map-status" id="mapStatus">Loading map&hellip;</p>
+      </div>
+      <p class="hint"><span class="hint-touch">Pinch or use + and &minus; to zoom. Tap an area for its details.</span><span class="hint-mouse">Use + and &minus; (or pinch on a trackpad) to zoom, and drag to pan. Click an area to keep its details.</span></p>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+    <aside class="mapside">
+      <div class="panel" id="detail" aria-live="polite"><h3>Selected area</h3><p class="empty">Hover over the map for a quick look, or tap a ZIP code or county to keep its details here.</p></div>
+      <div class="panel legend-card"><h3 id="legTitle">{{ firstLayer.legendTitle }}</h3><ul class="legend" id="legend"></ul><p class="legend-foot" id="legFoot"></p></div>
+    </aside>
+  </div>
+  <div class="print-maps" id="printMaps"></div>
+</section>
+
+<section class="block" id="key-figures" aria-labelledby="kf-title">
+  <div class="bhead"><h2 id="kf-title">Key figures</h2><p>{{ edition.label }} edition</p></div>
+  <div class="kgrid">
+    {%- for s in report.stats %}
+    <div class="kc"><div class="v">{{ s.value | fill(meta.stats) }}</div><div class="k">{{ s.label | fill(meta.stats) }}</div></div>
+    {%- endfor %}
+    {%- for rg in report.regions %}{% for s in rg.stats %}
+    <div class="kc" data-region="{{ rg.id }}" hidden><div class="v">{{ s.value | fill(meta.regions[rg.id]) }}</div><div class="k">{{ s.label | fill(meta.regions[rg.id]) }}</div></div>
+    {%- endfor %}{% endfor %}
+  </div>
+</section>
+
+<section class="block" id="methods" aria-labelledby="m-title">
+  <div class="bhead"><h2 id="m-title">Methods and sources</h2></div>
+  <div class="methods">
+    {%- for m in report.methods %}
+    <p><b>{{ m.title }}</b> {{ m.text }}</p>
+    {%- endfor %}
+  </div>
+  <p class="editions">Editions:
+    {%- for e in report.editions %} <a href="/{{ report.state }}/{{ report.slug }}/{{ e.id }}">{{ e.label }}</a>{% if not loop.last %},{% endif %}{% endfor %}.
+    Built from public data only.</p>
+</section>
+
+{%- set clientConfig = { geo: report.geo, attrs: edition.data + "attrs.json", map: map, detail: report.detail, regions: report.regions } %}
+<script type="application/json" id="report-config">{{ clientConfig | jsonScript | safe }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="/assets/js/vendor/d3-zoom.min.js" defer></script>
+<script type="module" src="/assets/js/heatmap.js"></script>
+{% endblock %}

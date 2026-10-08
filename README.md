@@ -1,0 +1,40 @@
+# GOAL State Reports
+
+Static site of state weather and risk reports, built with [Eleventy](https://www.11ty.dev/) and
+deployed on Vercel. Every report is built from public data only. No client names or account data
+belong in this repo.
+
+| URL | Page |
+|---|---|
+| `/` | All reports, grouped by state |
+| `/ok` | Oklahoma reports |
+| `/ok/home-risk` | Oklahoma Home Risk Map, latest edition |
+| `/ok/home-risk/2026-10` | October 2026 edition (frozen) |
+
+Report links can open on a layer, view, area or region, for example
+`/ok/home-risk?layer=fire&view=county&county=comanche` or `/ok/home-risk?region=southwest`.
+
+## Build
+
+```bash
+npm ci
+npm run dev      # http://localhost:8080
+npm run build    # writes _site/
+```
+
+## Add a heat map report
+
+1. Add a config file in `src/_data/reports/<id>.json` (copy `ok-home-risk.json`): title, layers,
+   views, legend text, detail fields, key figures, regions, methods.
+2. Add the data in `src/data/<state>/<report>/<edition>/` (`attrs.json`, `meta.json`) and the
+   shapes in `src/data/<state>/geo-<vintage>.json`.
+3. Add the state to `src/_data/site.json` if it is new.
+
+No template, script or stylesheet changes are needed. A new edition is a new data folder plus an
+entry at the top of the config's `editions` list.
+
+## Data
+
+`pipeline/` holds the data scripts and `pipeline/sources.md` lists every dataset and release.
+`npm run check` compares the site data with the original map it was extracted from (that file is
+kept outside the repo).
