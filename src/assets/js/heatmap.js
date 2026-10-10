@@ -124,7 +124,7 @@ function body(viewId, u) {
 }
 
 function showDetail(viewId, u) {
-  $('detail').innerHTML = `<h3>Selected area</h3>${body(viewId, u)}`;
+  $('detail').innerHTML = `<h3>Selected Area</h3>${body(viewId, u)}`;
 }
 
 // ---------- Data and drawing ----------
@@ -201,6 +201,12 @@ function paint() {
   $('legFoot').textContent = L.legendFoot || '';
   for (const seg of document.querySelectorAll('.seg[data-control]')) {
     for (const b of seg.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === state[seg.dataset.control]));
+  }
+  // Overlays only apply in their own view.
+  for (const lbl of document.querySelectorAll('[data-overlay-view]')) {
+    const off = lbl.dataset.overlayView !== state.view;
+    lbl.classList.toggle('is-off', off);
+    lbl.querySelector('input').disabled = off;
   }
   if (state.pinned) showDetail(state.pinned.view, state.pinned.unit);
   schedulePrint();
@@ -329,7 +335,7 @@ function buildPrint() {
     host.appendChild(fig);
   }
   if (state.pinned) {
-    host.insertAdjacentHTML('beforeend', `<section class="print-selected"><h3>Selected area</h3>${body(state.pinned.view, state.pinned.unit)}</section>`);
+    host.insertAdjacentHTML('beforeend', `<section class="print-selected"><h3>Selected Area</h3>${body(state.pinned.view, state.pinned.unit)}</section>`);
   }
 }
 addEventListener('beforeprint', () => { if (printDirty) buildPrint(); });
@@ -408,6 +414,28 @@ function wire() {
   addEventListener('resize', sizePlaces);
 }
 
+// Copy Link and Print work before the map loads.
+function wireActions() {
+  const copy = $('copyLink'), label = copy && copy.querySelector('span');
+  if (copy && navigator.clipboard) {
+    let reset;
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        label.textContent = 'Link Copied';
+      } catch {
+        label.textContent = 'Copy Failed';
+      }
+      clearTimeout(reset);
+      reset = setTimeout(() => { label.textContent = 'Copy Link'; }, 2000);
+    });
+  } else if (copy) {
+    copy.hidden = true;
+  }
+  const print = $('printReport');
+  if (print) print.addEventListener('click', () => window.print());
+}
+
 async function init() {
   try {
     await load();
@@ -430,4 +458,5 @@ async function init() {
   else if (pinned) zoomToBox(bbox(pinned.shape), 6, false);
 }
 
+wireActions();
 init();

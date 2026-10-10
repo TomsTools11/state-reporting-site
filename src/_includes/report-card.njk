@@ -1,9 +1,19 @@
 {#- Expects `p`: an entry from reportPages. -#}
+{%- set cardLayer = p.report.images.card if p.report.images else p.report.map.layers[0].id %}
 <a class="rcard" href="{{ p.url | noslash }}">
-  <span class="rc-tags">{{ taxonomy.line[p.report.tags.line] }} · {{ taxonomy.format[p.report.tags.format] }}</span>
-  <span class="rc-title">{{ p.report.title }}</span>
-  <span class="rc-text">{{ p.report.card }}</span>
-  <span class="rc-meta">{{ p.edition.label }} edition
-    {%- for peril in p.report.tags.perils %} · {{ taxonomy.perils[peril] }}{% endfor -%}
+  <img src="{{ p.images[cardLayer] }}" alt="" width="1000" height="525" loading="lazy">
+  <span class="rc-body">
+    <span class="tags">
+      <span class="tag brand">{{ taxonomy.line[p.report.tags.line] }}</span>
+      <span class="tag">{{ taxonomy.format[p.report.tags.format] }}</span>
+    </span>
+    <span class="rc-title">{{ p.report.title }}</span>
+    <span class="rc-text">{{ p.report.card }}</span>
+    <span class="rc-meta">
+      <span>{{ p.edition.label }} edition
+        {%- for peril in p.report.tags.perils %} · {{ taxonomy.perils[peril] }}{% endfor -%}
+      </span>
+      <span class="go">Open Report</span>
+    </span>
   </span>
 </a>

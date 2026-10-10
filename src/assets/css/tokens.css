@@ -1,57 +1,85 @@
-/* GOAL design tokens. Brand values come from the goal-client-report design tokens
-   (GOAL Platform Style Guide v1.0). Map colors are data colors, not brand colors. */
+/* GOAL design tokens (GOAL design system, dark theme by default). Print switches to the
+   light theme in print.css. Map colors are data colors, not brand colors; the map images
+   built in eleventy.config.js (MAP_COLORS) use the same screen values. */
 
 @font-face {
-  font-family: "Inter";
-  src: url("/assets/fonts/Inter-Variable.woff2") format("woff2");
+  font-family: "Sora";
+  src: url("/assets/fonts/Sora-Variable.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  /* Brand */
-  --blue: #057BE5;
-  --blue-hover: #0C6EC5;
-  --blue-tint: #E6F1FD;
-  --sky: #2D90EE;
-  --mint: #3BEECA;
-  --navy: #00172D;
-  --navy-deep: #001020;
+  color-scheme: dark;
 
-  /* Text and surfaces */
-  --ink: #0F1B2D;
-  --body: #2B3442;
-  --muted: #6A7482;
-  --white: #FFFFFF;
-  --off: #F8FAFC;
-  --gray: #EFF2F7;
-  --divider: #EDF1F5;
-  --line: #E2E8F0;
+  /* Grounds and surfaces */
+  --ground: #080c10;
+  --surface: #0d1117;
+  --surface-raised: #151a1e;
+  --header-ground: rgba(8, 12, 16, .85);
+  --border-subtle: rgba(30, 41, 59, .5);
+  --border-mid: rgba(30, 41, 59, .9);
+  --border-strong: #64748b;
+
+  /* Text */
+  --ink: #ffffff;
+  --ink-soft: #cbd5e1;
+  --ink-muted: #94a3b8;
+
+  /* Brand */
+  --brand: #057be5;
+  --brand-text: #339fff;
+  --brand-tint: rgba(5, 123, 229, .1);
+  --brand-tint-strong: rgba(5, 123, 229, .15);
+  --brand-border: rgba(5, 123, 229, .3);
+  --on-brand: #ffffff;
+  --accent-amber: #d97706;
+  --success-bright: #4ade80;
 
   /* Type */
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Shape and depth */
+  --radius-xs: 4px;
   --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 14px;
-  --elev-1: 0 2px 6px rgba(0, 23, 45, .06);
-  --elev-3: 0 12px 32px rgba(0, 23, 45, .16);
-  --focus: var(--blue);
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, .25);
+  --shadow-brand: 0 10px 15px -3px rgba(5, 123, 229, .25), 0 4px 6px -4px rgba(5, 123, 229, .25);
+  --glow-brand: 0 0 28px -8px rgba(5, 123, 229, .55);
+  --shadow-tip: 0 20px 25px -5px rgba(0, 0, 0, .45), 0 8px 10px -6px rgba(0, 0, 0, .35);
+  --focus: var(--brand-text);
 
-  /* Map: risk tiers, low to extreme */
-  --sev-0: #f2c4ad; --sev-1: #e08868; --sev-2: #bd4535; --sev-3: #6e1a1f;
-  --wf-0: #f3dca6; --wf-1: #dfa94a; --wf-2: #a8661a; --wf-3: #5c330b;
+  /* Background texture */
+  --grid-line: rgba(148, 163, 184, .05);
+  --glow-fill: rgba(5, 123, 229, .13);
+
+  /* Map: risk tiers, low to extreme (lighter = higher risk on the dark ground) */
+  --sev-0: #3b3038; --sev-1: #80404a; --sev-2: #cc5640; --sev-3: #ff8f66;
+  --wf-0: #3a3428; --wf-1: #7d5d1f; --wf-2: #c98a1c; --wf-3: #fbbf24;
 
   /* Map: status and structure */
-  --prime: var(--blue);
-  --review: #8b939e;
-  --other: #cfd6de;
-  --nodata: #e4e7eb;
-  --map-ground: #e4e7eb;
-  --zip-edge: #ffffff;
-  --county-edge: #2e343c;
-  --state-edge: var(--ink);
-  --rise: #0b0f14;
+  --prime: var(--brand);
+  --review: #56637a;
+  --other: #1e2834;
+  --nodata: #12171d;
+  --map-ground: #12171d;
+  --zip-edge: #0d1117;
+  --county-edge: #94a3b8;
+  --state-edge: var(--border-strong);
+  --rise: #ffffff;
+  --region-dim: #080c10;
+  --place-ink: #ffffff;
+  --place-halo: #080c10;
+  --pin: #ffffff;
 }

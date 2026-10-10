@@ -6,28 +6,76 @@ pagination:
 permalink: "/{{ st.id }}/"
 ---
 {% extends "base.njk" %}
+{% from "icons.njk" import icon %}
 
-{% block title %}{{ st.name }} reports · GOAL{% endblock %}
-
-{% block side %}
-<a class="back" href="/">&larr; All states</a>
-<p class="eb">{{ st.postal }}</p>
-<h1>{{ st.name }}</h1>
-<p class="who">{{ site.tagline }}</p>
-<nav aria-label="Reports">
-  {%- for p in st.reports %}
-  <a href="{{ p.url | noslash }}"><span class="dot"></span>{{ p.report.shortTitle }}</a>
-  {%- endfor %}
-</nav>
-{% endblock %}
+{% block title %}{{ st.name }} Reports · GOAL{% endblock %}
 
 {% block printhead %}<p class="pt-title">{{ st.name }} reports</p>{% endblock %}
 
 {% block content %}
-<section class="block" aria-labelledby="rep-title">
-  <div class="bhead"><h2 id="rep-title">{{ st.name }} reports</h2><p>Current editions</p></div>
-  <div class="rgrid">
-    {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
+<section class="hero glow-left">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">All States</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">{{ st.name }}</span>
+    </nav>
+    <div class="hero-copy">
+      <h1 class="display">{{ st.name }} Reports<br><span class="muted">Current Editions.</span></h1>
+      <p class="lead">{{ st.intro or site.tagline }}</p>
+    </div>
   </div>
 </section>
+
+<div class="wrap">
+  <section class="section" aria-labelledby="rep-title">
+    <div class="list-head">
+      <h2 class="sub-title" id="rep-title">{{ st.reports | length }} Report{{ "" if st.reports | length == 1 else "s" }}</h2>
+      <p>Current editions</p>
+    </div>
+    {%- for p in st.reports %}
+    {%- set cardLayer = p.report.images.card if p.report.images else p.report.map.layers[0].id %}
+    <article class="report-feature">
+      <div class="rf-map"><img src="{{ p.images[cardLayer] }}" alt="" width="1000" height="525"></div>
+      <div class="rf-body">
+        <div class="tags">
+          <span class="tag brand">{{ taxonomy.line[p.report.tags.line] }}</span>
+          <span class="tag">{{ taxonomy.format[p.report.tags.format] }}</span>
+          {%- for peril in p.report.tags.perils %}<span class="tag">{{ taxonomy.perils[peril] }}</span>{% endfor %}
+        </div>
+        <h3><a href="{{ p.url | noslash }}">{{ p.report.title }}</a></h3>
+        <p>{{ p.report.summary }}</p>
+        {%- if p.report.tiles %}
+        <div class="tiles">
+          {%- for t in p.report.tiles %}
+          <div class="tile"><div class="tile-v">{{ t.value | fill(p.meta.stats) }}</div><div class="tile-k">{{ t.label }}</div></div>
+          {%- endfor %}
+        </div>
+        {%- endif %}
+        <div class="rf-foot">
+          <span>{{ p.edition.label }} edition</span>
+          <a class="btn btn-primary" href="{{ p.url | noslash }}">Open Report{{ icon("arrow-right") }}</a>
+        </div>
+      </div>
+    </article>
+    {%- endfor %}
+  </section>
+
+  {%- for p in st.reports %}
+  <section class="section" aria-labelledby="inside-{{ p.report.id }}">
+    <div class="sec-head">
+      <h2 class="section-title" id="inside-{{ p.report.id }}">What the {{ p.report.shortTitle }} Shows<br><span class="muted">{{ p.report.map.layers | length }} Layers, {{ p.report.map.views | length }} Views.</span></h2>
+    </div>
+    <div class="layer-cards">
+      {%- for l in p.report.map.layers %}
+      <a class="layer-card{% if l.highlight %} is-highlight{% endif %}" href="{{ p.url | noslash }}{% if not loop.first %}?layer={{ l.id }}{% endif %}">
+        <img src="{{ p.images[l.id] }}" alt="" width="1000" height="525" loading="lazy">
+        <span class="lc-body">
+          <span class="lc-title">{{ l.label }}</span>
+          <span class="lc-text">{{ l.blurb or l.note }}</span>
+        </span>
+      </a>
+      {%- endfor %}
+    </div>
+  </section>
+  {%- endfor %}
+</div>
 {% endblock %}

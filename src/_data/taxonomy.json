@@ -18,9 +18,9 @@
     "insurance-market": "Insurance market"
   },
   "format": {
-    "risk-map": "Risk map",
-    "storm-recap": "Storm recap",
-    "market-brief": "Market brief"
+    "risk-map": "Risk Map",
+    "storm-recap": "Storm Recap",
+    "market-brief": "Market Brief"
   },
   "geography": {
     "zip": "ZIP",

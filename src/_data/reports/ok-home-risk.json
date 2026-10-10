@@ -5,10 +5,11 @@
   "slug": "home-risk",
   "title": "Oklahoma Home Risk Map",
   "shortTitle": "Home Risk Map",
-  "eyebrow": "Oklahoma homeowners market",
+  "eyebrow": "Oklahoma Homeowners Market",
   "summary": "Severe weather and wildfire risk to homes for every Oklahoma ZIP code and county, with the ZIP codes that combine lower risk and strong homeowner demographics.",
   "card": "Severe weather and wildfire risk by ZIP code and county, with prime target ZIP codes.",
   "sourcesShort": "FEMA, USDA Forest Service, U.S. Census Bureau and NOAA",
+  "sources": ["FEMA", "USDA Forest Service", "U.S. Census Bureau", "NOAA"],
   "tags": {
     "line": "home",
     "perils": ["severe-storm", "wildfire"],
@@ -26,19 +27,20 @@
     "tierLabels": ["Low", "Moderate", "High", "Extreme"],
     "tierRanges": ["0-39", "40-69", "70-89", "90-100"],
     "views": [
-      { "id": "zip", "label": "ZIP codes", "unit": "ZIPs", "titleSuffix": "by ZIP code" },
-      { "id": "county", "label": "Counties", "unit": "counties", "titleSuffix": "by county", "lines": true }
+      { "id": "zip", "label": "ZIP Codes", "unit": "ZIPs", "titleSuffix": "by ZIP Code" },
+      { "id": "county", "label": "Counties", "unit": "counties", "titleSuffix": "by County", "lines": true }
     ],
     "layers": [
       {
         "id": "severe",
-        "label": "Severe weather",
+        "label": "Severe Weather",
         "type": "tier",
         "score": "sev",
         "tier": "sevTier",
         "ramp": "sev",
-        "title": "Severe weather risk",
-        "legendTitle": "Severe weather tier",
+        "blurb": "Tornado, hail and strong wind damage to an average home, from the FEMA National Risk Index.",
+        "title": "Severe Weather Risk",
+        "legendTitle": "Severe Weather Tier",
         "note": "Tornado, hail and strong wind damage to an average home, ranked within Oklahoma.",
         "legendFoot": "Share of homes = share of Oklahoma owner-occupied homes in that tier. Tiers rank areas within Oklahoma."
       },
@@ -49,20 +51,23 @@
         "score": "fire",
         "tier": "fireTier",
         "ramp": "wf",
-        "title": "Wildfire risk",
-        "legendTitle": "Wildfire tier",
+        "blurb": "Risk to homes from FEMA and USDA Forest Service data, placed against all U.S. homes.",
+        "title": "Wildfire Risk",
+        "legendTitle": "Wildfire Tier",
         "note": "Wildfire risk to homes from FEMA and USDA Forest Service data, ranked within Oklahoma.",
         "legendFoot": "Share of homes = share of Oklahoma owner-occupied homes in that tier. Tiers rank areas within Oklahoma."
       },
       {
         "id": "prime",
-        "label": "Prime targets",
-        "legendTitle": "Prime target status",
+        "label": "Prime Targets",
+        "legendTitle": "Prime Target Status",
+        "highlight": true,
+        "blurb": "Low or Moderate on both risk layers, at least 70% owner-occupied, income at or above the state median.",
         "byView": {
           "zip": {
             "type": "category",
-            "fullTitle": "Prime target ZIP codes",
-            "note": "Blue ZIP codes meet every prime target test. Dark gray ZIP codes are on the review list.",
+            "fullTitle": "Prime Target ZIP Codes",
+            "note": "Blue ZIP codes meet every prime target test. Gray ZIP codes are on the review list.",
             "noData": { "field": "sevTier", "lt": 0 },
             "categories": [
               { "label": "Prime target", "color": "prime", "when": { "field": "prime", "eq": 1 } },
@@ -73,7 +78,7 @@
           },
           "county": {
             "type": "share",
-            "fullTitle": "Homes in prime target ZIP codes, by county",
+            "fullTitle": "Homes in Prime Target ZIP Codes, by County",
             "note": "Shading shows the share of each county’s owner-occupied homes that sit in prime target ZIP codes.",
             "field": "primeOwnerHomes",
             "of": "ownerHomes",
@@ -98,7 +103,7 @@
       }
     ],
     "search": {
-      "label": "Find a ZIP or town",
+      "label": "Find a ZIP or Town",
       "placeholder": "74103 or Enid"
     }
   },
@@ -144,9 +149,37 @@
   },
   "stats": [
     { "value": "{reviewZips}", "label": "ZIP codes on the review list, holding {reviewShare:pct1} of Oklahoma owner-occupied homes" },
-    { "value": "{primeZips}", "label": "prime target ZIP codes, holding {primeShare:pct1} of owner-occupied homes" },
+    { "value": "{primeZips}", "highlight": true, "label": "prime target ZIP codes, holding {primeShare:pct1} of owner-occupied homes" },
     { "value": "{risingZips}", "label": "ZIP codes whose severe weather tier rises on 2015-2025 storm data" }
   ],
+  "tiles": [
+    { "value": "{primeZips}", "label": "Prime Target ZIPs" },
+    { "value": "{reviewZips}", "label": "Review List ZIPs" },
+    { "value": "{risingZips}", "label": "ZIPs Rising in Risk" }
+  ],
+  "images": { "hero": "prime", "card": "severe" },
+  "table": {
+    "id": "top-prime",
+    "nav": "Top Prime ZIPs",
+    "title": "Top Prime Target ZIPs",
+    "titleSub": "Ranked by Owner-Occupied Homes.",
+    "intro": "The {limit} largest of the {primeZips} prime target ZIP codes. Each is Low or Moderate on both risk layers.",
+    "view": "zip",
+    "where": { "field": "prime", "eq": 1 },
+    "sort": "primeRank",
+    "limit": 10,
+    "columns": [
+      { "label": "Rank", "text": "#{primeRank}", "style": "rank" },
+      { "label": "ZIP", "text": "{id}", "style": "strong" },
+      { "label": "Town", "text": "{name}" },
+      { "label": "County", "text": "{county}", "style": "soft" },
+      { "label": "Severe Weather", "layer": "severe" },
+      { "label": "Wildfire", "layer": "fire" },
+      { "label": "Owner-Occupied Homes", "text": "{ownerHomes:int}", "style": "strong", "align": "end" },
+      { "label": "Owner Rate", "text": "{ownerRate:pct}", "align": "end" },
+      { "label": "Median Income", "text": "{income:money}", "align": "end" }
+    ]
+  },
   "regions": [
     {
       "id": "southwest",
@@ -158,10 +191,10 @@
     }
   ],
   "methods": [
-    { "title": "Severe weather score.", "text": "Expected yearly storm damage to an average home from tornadoes (40%), hail (40%) and strong wind (20%), from the FEMA National Risk Index (December 2025 release), ranked across Oklahoma ZIP codes. 0 is the lowest in the state and 100 the highest. Low 0-39, Moderate 40-69, High 70-89, Extreme 90-100. All of Oklahoma is above the national average for hail and tornadoes, so these tiers compare places within the state." },
-    { "title": "Wildfire score.", "text": "Average of two public measures for the homes in each area: FEMA National Risk Index wildfire damage per home (December 2025) and the USDA Forest Service Wildfire Risk to Communities risk to homes (2nd edition, 2024 release). Each home is placed against all U.S. homes, then areas are ranked within Oklahoma using the same tier ranges. These public measures approximate, but do not replicate, carrier scores such as Verisk FireLine." },
-    { "title": "Prime targets.", "text": "Low or Moderate on both risk layers, at least 70% of homes owner-occupied, median household income at or above the Oklahoma median ($65,039), and at least 1,000 owner-occupied homes. Review list: High or Extreme on either risk layer." },
-    { "title": "Homes and income.", "text": "U.S. Census Bureau American Community Survey 2020-2024 5-year estimates. ZIP codes are Census ZIP Code Tabulation Areas; areas are matched to risk data using 2020 Census housing counts. Gray areas inside the state have no ZIP code (parks, military land, lakes)." },
-    { "title": "Recent storms.", "text": "NOAA Storm Events Database and Storm Prediction Center tornado tracks, 2015-2025 compared with 1990-2014." }
+    { "title": "Severe Weather Score", "text": "Expected yearly storm damage to an average home from tornadoes (40%), hail (40%) and strong wind (20%), from the FEMA National Risk Index (December 2025 release), ranked across Oklahoma ZIP codes. 0 is the lowest in the state and 100 the highest. Low 0-39, Moderate 40-69, High 70-89, Extreme 90-100. All of Oklahoma is above the national average for hail and tornadoes, so these tiers compare places within the state." },
+    { "title": "Wildfire Score", "text": "Average of two public measures for the homes in each area: FEMA National Risk Index wildfire damage per home (December 2025) and the USDA Forest Service Wildfire Risk to Communities risk to homes (2nd edition, 2024 release). Each home is placed against all U.S. homes, then areas are ranked within Oklahoma using the same tier ranges. These public measures approximate, but do not replicate, carrier scores such as Verisk FireLine." },
+    { "title": "Prime Targets", "highlight": true, "text": "Low or Moderate on both risk layers, at least 70% of homes owner-occupied, median household income at or above the Oklahoma median ($65,039), and at least 1,000 owner-occupied homes. Review list: High or Extreme on either risk layer." },
+    { "title": "Homes and Income", "text": "U.S. Census Bureau American Community Survey 2020-2024 5-year estimates. ZIP codes are Census ZIP Code Tabulation Areas; areas are matched to risk data using 2020 Census housing counts. Gray areas inside the state have no ZIP code (parks, military land, lakes)." },
+    { "title": "Recent Storms", "text": "NOAA Storm Events Database and Storm Prediction Center tornado tracks, 2015-2025 compared with 1990-2014." }
   ]
 }
