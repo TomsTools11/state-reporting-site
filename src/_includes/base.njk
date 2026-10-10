@@ -21,20 +21,15 @@
 <header class="site-header">
   <div class="wrap hdr">
     <a class="brand-link" href="/" aria-label="{{ site.name }} home">
-      <img class="brand-logo" src="/assets/brand/goal-wordmark-white.png" width="720" height="193" alt="GOAL">
-      <span class="brand-name">State Reports</span>
+      <img class="brand-logo" src="/assets/brand/goal-wordmark-white.png" width="720" height="193" alt="">
+      <span class="brand-rule" aria-hidden="true"></span>
+      <span class="brand-name">State <span>Reports</span></span>
     </a>
     <nav class="site-nav" aria-label="Main">
       <a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>All Reports</a>
-      {%- for st in library %}
-      {%- set stUrl = "/" + st.id + "/" %}
-      <a href="/{{ st.id }}"{% if page.url == stUrl %} aria-current="page"{% elif page.url.startsWith(stUrl) %} aria-current="true"{% endif %}>{{ st.name }}</a>
-      {%- endfor %}
+      <a href="/#by-state"{% if page.url != "/" %} aria-current="true"{% endif %}>States</a>
       <a href="/#how">How Reports Are Built</a>
     </nav>
-    {%- if site.cta and site.cta.url %}
-    <a class="btn btn-primary" href="{{ site.cta.url }}">{{ site.cta.label }}</a>
-    {%- endif %}
   </div>
 </header>
 <main id="main">
@@ -53,9 +48,7 @@
     </div>
     <nav aria-label="Footer">
       <a href="/">All Reports</a>
-      {%- for st in library %}
-      <a href="/{{ st.id }}">{{ st.name }}</a>
-      {%- endfor %}
+      <a href="/#by-state">States</a>
       <a href="/#how">How Reports Are Built</a>
     </nav>
   </div>

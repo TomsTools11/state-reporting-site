@@ -17,10 +17,13 @@ img { max-width: 100%; display: block }
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 10; background: var(--header-ground); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle) }
 .hdr { min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; padding-top: 10px; padding-bottom: 10px }
-.brand-link { display: flex; align-items: center; gap: 12px }
+.brand-link { display: flex; align-items: center; gap: 14px }
 .brand-logo { height: 28px; width: auto }
-.brand-name { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-muted); padding-left: 12px; border-left: 1px solid var(--border-strong) }
-.site-nav { display: flex; flex-wrap: wrap; gap: 8px 28px; flex-grow: 1; font-size: 14px; line-height: 20px; font-weight: 500 }
+/* "State Reports" is part of the logo lockup, set like a headline rather than a link */
+.brand-rule { width: 2px; height: 26px; border-radius: 2px; background: linear-gradient(180deg, var(--brand), var(--accent-amber)) }
+.brand-name { font: 800 20px/24px var(--font-display); letter-spacing: -.5px; color: var(--ink); white-space: nowrap }
+.brand-name span { color: var(--brand-text) }
+.site-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 28px; flex-grow: 1; font-size: 14px; line-height: 20px; font-weight: 500 }
 .site-nav a { padding: 6px 0 }
 .site-nav a[aria-current] { color: var(--ink) }
 
@@ -173,7 +176,9 @@ img { max-width: 100%; display: block }
   .wrap { padding: 0 16px }
   .brand-logo { height: 24px }
   .hdr { gap: 4px 20px }
-  .site-nav { gap: 0 20px; flex-basis: 100% }
+  .site-nav { gap: 0 20px; flex-basis: 100%; justify-content: flex-start }
+  .brand-name { font-size: 18px }
+  .brand-rule { height: 22px }
   .display { font-size: 34px }
   .rgrid { padding: 16px; gap: 16px }
   .rf-map { padding: 16px }
