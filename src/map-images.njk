@@ -1,0 +1,9 @@
+---
+pagination:
+  data: mapImages
+  size: 1
+  alias: img
+permalink: "{{ img.url }}"
+eleventyExcludeFromCollections: true
+---
+{{ img.svg | safe }}

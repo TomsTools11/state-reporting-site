@@ -6,29 +6,53 @@
 <title>{% block title %}{{ site.name }}{% endblock %}</title>
 <meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#080c10">
 <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Sora-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Outfit-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/tokens.css">
 <link rel="stylesheet" href="/assets/css/site.css">
 {% block head %}{% endblock %}
 <link rel="stylesheet" href="/assets/css/print.css" media="print">
 </head>
 <body>
-<div class="shell">
-  <aside class="side">
-    <a class="brand" href="/"><img class="logo" src="/assets/brand/goal-wordmark-white.png" width="720" height="193" alt="GOAL"></a>
-    {% block side %}{% endblock %}
-    <div class="foot">{% block sidefoot %}{{ site.name }}. {{ site.tagline }}{% endblock %}</div>
-  </aside>
-  <main class="main" id="main">
-    <div class="print-head" aria-hidden="true">
-      <img src="/assets/brand/goal-wordmark-black.png" width="720" height="193" alt="">
-      <div>{% block printhead %}<p class="pt-title">{{ site.name }}</p>{% endblock %}</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand-link" href="/" aria-label="{{ site.name }} home">
+      <img class="brand-logo" src="/assets/brand/goal-wordmark-white.png" width="720" height="193" alt="">
+      <span class="brand-rule" aria-hidden="true"></span>
+      <span class="brand-name">State <span>Reports</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>All Reports</a>
+      <a href="/#by-state"{% if page.url != "/" %} aria-current="true"{% endif %}>States</a>
+      <a href="/#how">How Reports Are Built</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="print-head" aria-hidden="true">
+    <img src="/assets/brand/goal-wordmark-black.png" width="720" height="193" alt="">
+    <div>{% block printhead %}<p class="pt-title">{{ site.name }}</p>{% endblock %}</div>
+  </div>
+  {% block content %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="rule" aria-hidden="true"></div>
+  <div class="wrap ftr">
+    <div>
+      <img class="brand-logo" src="/assets/brand/goal-wordmark-white.png" width="720" height="193" alt="GOAL">
+      <p>{{ site.tagline }}</p>
     </div>
-    {% block content %}{% endblock %}
-  </main>
-</div>
+    <nav aria-label="Footer">
+      <a href="/">All Reports</a>
+      <a href="/#by-state">States</a>
+      <a href="/#how">How Reports Are Built</a>
+    </nav>
+  </div>
+</footer>
 {% block scripts %}{% endblock %}
 </body>
 </html>

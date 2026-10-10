@@ -2,28 +2,87 @@
 permalink: /
 ---
 {% extends "base.njk" %}
-
-{% block side %}
-<p class="eb">GOAL</p>
-<h1>State Reports</h1>
-<p class="who">{{ site.tagline }}</p>
-<nav aria-label="States">
-  {%- for st in library %}
-  <a href="/{{ st.id }}"><span class="dot"></span>{{ st.name }}</a>
-  {%- endfor %}
-</nav>
-{% endblock %}
+{% from "icons.njk" import icon %}
 
 {% block content %}
-<header class="intro">
-  <p class="sub">Reports on weather risk and the home and auto insurance market, by state. Each report is built from public data and shows the date of its current edition.</p>
-</header>
-{%- for st in library %}
-<section class="block" aria-labelledby="st-{{ st.id }}">
-  <div class="bhead"><h2 id="st-{{ st.id }}"><a href="/{{ st.id }}">{{ st.name }}</a></h2><p>{{ st.reports | length }} report{{ "" if st.reports | length == 1 else "s" }}</p></div>
-  <div class="rgrid">
-    {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
+{%- set fp = featured %}
+{%- set heroLayer = fp.report.images.hero if fp.report.images else fp.report.map.layers[0].id %}
+{%- set L = fp.report.map | layerView(heroLayer, fp.view) %}
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-split">
+      <div class="hero-copy">
+        <span class="badge"><span class="live" aria-hidden="true"></span>Updated {{ fp.edition.label }}</span>
+        <h1 class="display">Know the Risk.<br><span class="accent">Target the Right ZIPs.</span></h1>
+        <p class="lead">State reports on severe weather, wildfire and the homeowners market, built for agencies deciding where to grow. Every report uses public data only and is dated by edition.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href="{{ fp.url | noslash }}">Open the {{ site.states[fp.report.state].name }} Report{{ icon("arrow-right") }}</a>
+          <a class="btn btn-ghost btn-lg" href="#how">How Reports Are Built</a>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <div class="fig-head">
+          <span class="fig-title">{{ site.states[fp.report.state].name }} · {{ L.fullTitle or (L.title + " " + fp.report.map.views[0].titleSuffix) }}</span>
+          <span class="fig-date">{{ fp.edition.label }}</span>
+        </div>
+        <a href="{{ fp.url | noslash }}?layer={{ heroLayer }}" tabindex="-1" aria-hidden="true"><img src="{{ fp.images[heroLayer] }}" alt="" width="1000" height="525"></a>
+        <figcaption>{% set M = fp.report.map %}{% include "map-key.njk" %}</figcaption>
+      </figure>
+    </div>
+
+    <p class="stat-src">From the {{ fp.report.title }}, {{ fp.edition.label }} edition</p>
+    <div class="stat-grid">
+      {%- for s in fp.report.stats %}
+      <div class="stat{% if s.highlight %} is-highlight{% endif %}"><div class="stat-v">{{ s.value | fill(fp.meta.stats) }}</div><p class="stat-k">{{ s.label | fill(fp.meta.stats) }}</p></div>
+      {%- endfor %}
+    </div>
   </div>
 </section>
-{%- endfor %}
+
+<div class="wrap">
+  <section class="section" aria-labelledby="by-state">
+    <div class="sec-head">
+      <h2 class="section-title" id="by-state">Reports by State<br><span class="muted">One Live Edition Each.</span></h2>
+      <p>Pick a state to see its current reports. Older editions retire when a new one ships, so every link stays current.</p>
+    </div>
+    {%- for st in library %}
+    <div class="state-panel">
+      <div class="state-head">
+        <span class="icon-tile state-mark" aria-hidden="true">{{ st.postal }}</span>
+        <div>
+          <h3 class="sub-title"><a href="/{{ st.id }}">{{ st.name }}</a></h3>
+          <p>{{ st.reports | length }} report{{ "" if st.reports | length == 1 else "s" }} · Updated {{ st.reports[0].edition.label }}</p>
+        </div>
+        <a class="btn-text" href="/{{ st.id }}">All {{ st.name }} Reports{{ icon("chevron-right") }}</a>
+      </div>
+      <div class="rgrid">
+        {%- for p in st.reports %}{% include "report-card.njk" %}{% endfor %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-title">
+    <div class="sec-head">
+      <h2 class="section-title" id="how-title">How Reports Are Built<br><span class="muted">Public Data. Clear Methods.</span></h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="icon-tile">{{ icon("database", 20, 1.75) }}</span>
+        <h3>Public Sources Only</h3>
+        <p>FEMA, the USDA Forest Service, the U.S. Census Bureau and NOAA. No client names or account data, ever.</p>
+      </div>
+      <div class="feature">
+        <span class="icon-tile">{{ icon("chart", 20, 1.75) }}</span>
+        <h3>Ranked Within the State</h3>
+        <p>Risk maps score areas 0 to 100 inside each state: Low 0-39, Moderate 40-69, High 70-89, Extreme 90-100. Briefs state their own tier rules.</p>
+      </div>
+      <div class="feature">
+        <span class="icon-tile">{{ icon("calendar-check", 20, 1.75) }}</span>
+        <h3>One Current Edition</h3>
+        <p>Each report shows its edition date. When a new edition ships, old dated links redirect to it.</p>
+      </div>
+    </div>
+  </section>
+</div>
 {% endblock %}

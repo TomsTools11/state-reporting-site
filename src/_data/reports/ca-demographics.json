@@ -4,12 +4,13 @@
   "state": "ca",
   "slug": "demographics",
   "title": "California Demographics by ZIP Code",
-  "shortTitle": "Demographics by ZIP Code",
-  "eyebrow": "California home and auto market",
+  "shortTitle": "Demographics",
+  "eyebrow": "California Home and Auto Market",
   "summary": "Household income, homeownership, age and vehicles for all 1,803 populated California ZIP codes, with the prime target ZIP codes and the household screens that set ZIP targeting apart from county targeting.",
-  "intro": "Household income, homeownership, owner occupancy, age and vehicles for all <b>1,803 populated California ZIP codes</b>, from the U.S. Census Bureau's American Community Survey 2020-2024 5-year estimates (released December 2025), the newest ZIP-level release. The <a href=\"/ca/brush-fire-risk\">California Brush Fire Risk</a> report supplies the fire tier used in the prime target screen.",
+  "intro": "Household income, homeownership, owner occupancy, age and vehicles for all 1,803 populated California ZIP codes, from the Census Bureau's American Community Survey 2020-2024. The <a href=\"/ca/brush-fire-risk\">Brush Fire Risk</a> report supplies the fire tier in the prime target screen.",
   "card": "Income, homeownership, age and vehicles for every populated ZIP code, with prime target ZIPs and urban renter cores.",
   "sourcesShort": "the U.S. Census Bureau and FEMA",
+  "sources": ["U.S. Census Bureau ACS 2020-2024", "FEMA National Risk Index"],
   "tags": {
     "line": ["home", "auto"],
     "perils": [],
@@ -18,30 +19,49 @@
     "geography": ["zip", "county"]
   },
   "edition": { "id": "2026-07", "label": "July 2026", "data": "/data/ca/demographics/2026-07/" },
+  "images": { "card": "income" },
+  "tiles": [
+    { "value": "1,803", "label": "ZIPs Profiled" },
+    { "value": "198", "label": "Prime Target ZIPs" },
+    { "value": "28", "label": "Urban Renter Cores" }
+  ],
   "tiers": { "ramp": "wf", "labels": ["Low", "Moderate", "High", "Extreme"] },
+  "stats": [
+    { "value": "$99,970", "label": "statewide median household income, weighted by households across 1,803 ZIP codes" },
+    {
+      "value": "198",
+      "label": "prime target ZIP codes, holding 18.5% of California households and 23.5% of owner households",
+      "highlight": true
+    },
+    { "value": "55.9%", "label": "homeownership rate statewide, with 7.57M owner-occupied homes" }
+  ],
   "sections": [
     {
       "id": "statewide",
-      "title": "Statewide profile",
-      "sub": "ACS 2020-2024 5-year estimates",
+      "title": "Statewide Profile",
+      "titleSub": "ACS 2020-2024.",
+      "nav": "Statewide",
+      "intro": "The households, homes and vehicles behind every ZIP code in this report.",
+      "blurb": "Households, home values and vehicles across all 1,803 populated ZIP codes.",
       "items": [
         {
           "type": "figures",
           "items": [
-            { "value": "1,803", "label": "Populated ZIP codes", "detail": "39.3M residents" },
+            { "value": "39.3M", "label": "Residents", "detail": "In 1,803 populated ZIP codes" },
             { "value": "13.55M", "label": "Households", "detail": "14.64M housing units" },
-            { "value": "$99,970", "label": "Median household income", "detail": "Household-weighted, statewide" },
-            { "value": "55.9%", "label": "Homeownership rate", "detail": "7.57M owner-occupied homes" },
             { "value": "$770,900", "label": "Median home value", "detail": "Owner-occupied homes" },
-            { "value": "62.2%", "label": "Households with 2 or more vehicles", "detail": "7.1% have no vehicle" }
+            { "value": "62.2%", "label": "Households with 2+ vehicles", "detail": "7.1% have no vehicle" }
           ]
         }
       ]
     },
     {
       "id": "income",
-      "title": "Household income by ZIP code",
-      "sub": "Median household income for every populated ZIP code",
+      "title": "Household Income",
+      "titleSub": "By ZIP Code.",
+      "nav": "Income",
+      "intro": "Median household income for every populated ZIP code, and the household-weighted average by region.",
+      "blurb": "Median income for every ZIP code on a statewide map, with the spread by region.",
       "items": [
         {
           "type": "cols",
@@ -50,7 +70,7 @@
             {
               "type": "map",
               "map": "income",
-              "title": "Median household income",
+              "title": "Median Household Income",
               "alt": "Dot map of California ZIP codes colored by median household income",
               "legend": [
                 { "label": "Under $60k", "color": "inc-0", "n": "225" },
@@ -58,13 +78,13 @@
                 { "label": "$85-110k", "color": "inc-2", "n": "397" },
                 { "label": "$110-150k", "color": "inc-3", "n": "339" },
                 { "label": "$150k+", "color": "inc-4", "n": "203" },
-                { "label": "Not published", "color": "nodata", "n": "212" }
+                { "label": "Not published", "color": "dot-nodata", "n": "212" }
               ],
               "foot": "One dot per ZIP code at its center, sized by housing units. Counts are ZIP codes. 1,591 ZIP codes have a published median. Small ZIP codes without one are gray."
             },
             {
               "type": "facts",
-              "title": "Income across ZIP codes",
+              "title": "Income Across ZIP Codes",
               "items": [
                 { "key": "10th percentile", "text": "<b>$54,205</b>" },
                 { "key": "Median ZIP", "text": "<b>$93,660</b>" },
@@ -81,7 +101,7 @@
         },
         {
           "type": "bars",
-          "title": "Household-weighted income by region",
+          "title": "Household-Weighted Income by Region",
           "bars": [
             { "label": "Bay Area", "sub": "2,806,344 households", "value": "$145k", "pct": 100 },
             { "label": "San Diego and Imperial", "sub": "1,233,553 households", "value": "$109k", "pct": 76 },
@@ -111,14 +131,17 @@
     {
       "id": "ownership",
       "title": "Homeownership",
-      "sub": "Two ownership measures for each ZIP code",
+      "titleSub": "Two Measures.",
+      "nav": "Homeownership",
+      "intro": "The standard homeownership rate, and the share of all homes that are owner-occupied, which drops in resort and vacation markets.",
+      "blurb": "Homeownership rate versus owner occupancy, with the resort markets where they split.",
       "items": [
         {
           "type": "cols",
           "items": [
             {
               "type": "facts",
-              "title": "The two measures",
+              "title": "The Two Measures",
               "items": [
                 {
                   "key": "Rate, 55.9%",
@@ -141,7 +164,7 @@
             },
             {
               "type": "bars",
-              "title": "Homeownership rate by region",
+              "title": "Homeownership Rate by Region",
               "bars": [
                 { "label": "North State and Sierra", "value": "66.2%", "pct": 100 },
                 { "label": "Inland Empire", "value": "65.8%", "pct": 99 },
@@ -160,18 +183,20 @@
     },
     {
       "id": "county-spread",
-      "title": "Income spread within counties",
-      "nav": "Within-county spread",
-      "sub": "Range of ZIP code median household income, ZIP codes with 1,000 or more households",
+      "title": "Income Within Counties",
+      "titleSub": "ZIP by ZIP.",
+      "nav": "Within Counties",
+      "intro": "Range of ZIP code median household income in four large counties, ZIP codes with 1,000 or more households.",
+      "blurb": "How far median income swings between ZIP codes in the same county.",
       "items": [
         {
           "type": "table",
           "columns": [
             { "label": "County" },
-            { "label": "Lowest ZIP", "align": "r" },
-            { "label": "Median ZIP", "align": "r" },
-            { "label": "Highest ZIP", "align": "r" },
-            { "label": "ZIPs", "align": "r" }
+            { "label": "Lowest ZIP", "align": "end" },
+            { "label": "Median ZIP", "align": "end" },
+            { "label": "Highest ZIP", "align": "end" },
+            { "label": "ZIPs", "align": "end" }
           ],
           "rows": [
             [
@@ -203,14 +228,18 @@
               "64"
             ]
           ],
-          "foot": "Within one county, median household income runs about <b>3 to 8 times</b> higher in the top ZIP code than in the bottom one. County-level targeting averages that spread away. ZIP-level targeting keeps it."
+          "foot": "Within one county, median household income runs about <b>3 to 8 times</b> higher in the top ZIP code than in the bottom one. County-level targeting averages that spread away. ZIP-level targeting keeps it.",
+          "title": "Median Household Income Range"
         }
       ]
     },
     {
       "id": "prime",
-      "title": "Prime target ZIP codes",
-      "sub": "Median income $100k or more, homeownership 60% or more, Low or Moderate fire tier, 3,000 or more households",
+      "title": "Prime Target ZIP Codes",
+      "titleSub": "Four Screens.",
+      "nav": "Prime Targets",
+      "intro": "Median income $100k or more, homeownership 60% or more, Low or Moderate fire tier, and 3,000 or more households.",
+      "blurb": "The 198 ZIP codes that pass the income, ownership, fire and size screens.",
       "items": [
         {
           "type": "figures",
@@ -222,15 +251,15 @@
         },
         {
           "type": "table",
-          "title": "Largest prime target ZIP codes by households",
+          "title": "Largest Prime Target ZIPs by Households",
           "columns": [
             { "label": "ZIP" },
             { "label": "City" },
             { "label": "County" },
-            { "label": "Median income", "align": "r" },
-            { "label": "Own rate", "align": "r" },
+            { "label": "Median income", "align": "end" },
+            { "label": "Own rate", "align": "end" },
             { "label": "Fire tier" },
-            { "label": "Households", "align": "r" }
+            { "label": "Households", "align": "end" }
           ],
           "rows": [
             ["95747", "Roseville", "Placer", "$136,750", "80.9%", {"tier": 1}, "30,086"],
@@ -252,13 +281,15 @@
     },
     {
       "id": "seniors",
-      "title": "Senior and group quarters ZIP codes",
-      "nav": "Senior ZIP codes",
-      "sub": "ZIP codes whose households look different from their headline population",
+      "title": "Senior ZIP Codes",
+      "titleSub": "Age and Group Quarters.",
+      "nav": "Senior ZIPs",
+      "intro": "ZIP codes where older householders or group quarters make the households look different from the headline population.",
+      "blurb": "Retirement communities and institution-heavy ZIP codes.",
       "items": [
         {
           "type": "facts",
-          "title": "The screen",
+          "title": "The Screen",
           "items": [
             {
               "key": "Flagged",
@@ -276,15 +307,15 @@
         },
         {
           "type": "table",
-          "title": "Most senior ZIP codes, 300 or more households",
+          "title": "Most Senior ZIPs, 300+ Households",
           "columns": [
             { "label": "ZIP" },
             { "label": "City" },
             { "label": "County" },
-            { "label": "Median age", "align": "r" },
-            { "label": "Householder 65+", "align": "r" },
-            { "label": "Group quarters", "align": "r" },
-            { "label": "Households", "align": "r" }
+            { "label": "Median age", "align": "end" },
+            { "label": "Householder 65+", "align": "end" },
+            { "label": "Group quarters", "align": "end" },
+            { "label": "Households", "align": "end" }
           ],
           "rows": [
             ["92637", "Laguna Woods", "Orange", "74.9", "87.0%", "0.4%", "11,706"],
@@ -303,8 +334,11 @@
     },
     {
       "id": "renter-cores",
-      "title": "Urban renter cores",
-      "sub": "Homeownership under 20% and more than 15,000 people per square mile",
+      "title": "Urban Renter Cores",
+      "titleSub": "Low Ownership, High Density.",
+      "nav": "Renter Cores",
+      "intro": "Homeownership under 20% and more than 15,000 people per square mile. A third of these households have no vehicle.",
+      "blurb": "Dense renter neighborhoods in Los Angeles, San Francisco, Oakland and San Diego.",
       "items": [
         {
           "type": "figures",
@@ -329,24 +363,24 @@
             {
               "type": "map",
               "map": "renters-la",
-              "title": "Los Angeles basin",
+              "title": "Los Angeles Basin",
               "alt": "Dot map of the Los Angeles basin showing the ZIP codes beginning 900 and the urban renter core ZIP codes",
               "legend": [
                 { "label": "ZIP codes beginning 900", "color": "core900", "n": "68" },
                 { "label": "Urban renter core, outside 900", "color": "renter" },
-                { "label": "Other ZIP codes", "color": "other" }
+                { "label": "Other ZIP codes", "color": "dot-other" }
               ],
               "foot": "The ZIP codes beginning 900 cover central Los Angeles (90001-90099). The renter core flag carries the same profile into Glendale, Pasadena and Long Beach. Fire risk is not what sets this belt apart, since 64 of the 68 rate Low on brush fire."
             },
             {
               "type": "table",
-              "title": "Renter core ZIP codes outside Los Angeles County",
+              "title": "Renter Cores Outside Los Angeles County",
               "columns": [
                 { "label": "ZIP" },
                 { "label": "City" },
-                { "label": "Own rate", "align": "r" },
-                { "label": "People / sq mi", "align": "r" },
-                { "label": "Households", "align": "r" }
+                { "label": "Own rate", "align": "end" },
+                { "label": "People / sq mi", "align": "end" },
+                { "label": "Households", "align": "end" }
               ],
               "rows": [
                 ["93410", "San Luis Obispo", "0.0%", "16,963", "14"],
@@ -388,20 +422,20 @@
   ],
   "methods": [
     {
-      "title": "Source.",
+      "title": "Census Release",
       "text": "U.S. Census Bureau American Community Survey 2020-2024 5-year estimates, released December 2025. ZIP codes are 2020 Census ZIP Code Tabulation Areas."
     },
     {
-      "title": "Coverage.",
+      "title": "Coverage",
       "text": "1,803 populated California ZIP codes. PO box ZIP codes have no residents and no Census profile. Traffic from them belongs to the surrounding ZIP code."
     },
     {
-      "title": "Precision.",
+      "title": "Precision",
       "text": "Every value carries an ACS margin of error and is most reliable for larger ZIP codes. The Census top-codes income at \"$250,000 or more\". A blank value means the Census did not publish it, never zero."
     },
-    { "title": "Regions.", "text": "Region figures are household-weighted averages of ZIP code values." },
+    { "title": "Regions", "text": "Region figures are household-weighted averages of ZIP code values." },
     {
-      "title": "Fire tier.",
+      "title": "Fire Tier",
       "text": "The prime target screen uses the composite brush fire tier from the <a href=\"/ca/brush-fire-risk\">California Brush Fire Risk</a> report, built from the FEMA National Risk Index (December 2025)."
     }
   ]

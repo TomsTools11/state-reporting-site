@@ -5,45 +5,38 @@
   "slug": "brush-fire-risk",
   "title": "California Brush Fire Risk by ZIP Code",
   "shortTitle": "Brush Fire Risk",
-  "eyebrow": "California homeowners market",
+  "eyebrow": "California Homeowners Market",
   "summary": "Brush fire risk tiers for all 1,803 populated California ZIP codes from FEMA National Risk Index tract data, with the Extreme and High tier ZIP codes, county exposure and how the score compares with commercial wildfire models.",
-  "intro": "Every populated California ZIP code scored for brush fire risk from the <b>FEMA National Risk Index</b> (December 2025). Scores start at the census tract and are weighted to where each ZIP code's homes sit. The score follows the recipe of the commercial wildfire models carriers use (Verisk FireLine, Cotality Wildfire Risk Score, Zesty.ai Z-FIRE) plus ISO's fire protection class. The <a href=\"/ca/demographics\">California Demographics</a> report uses these tiers in its prime target screen.",
+  "intro": "Every populated California ZIP code scored for brush fire risk from FEMA National Risk Index tract data, weighted to where its homes sit. The score follows the recipe of the commercial wildfire models carriers use. The <a href=\"/ca/demographics\">Demographics</a> report uses these tiers in its prime target screen.",
   "card": "Brush fire risk tier for every populated ZIP code, with the Extreme and High tier ZIPs and county exposure.",
   "sourcesShort": "FEMA, USDA Forest Service and U.S. Census Bureau",
+  "sources": ["FEMA National Risk Index", "USDA Forest Service", "U.S. Census Bureau ACS 2020-2024"],
   "tags": { "line": "home", "perils": ["wildfire"], "context": [], "format": "risk-brief", "geography": ["zip", "county"] },
   "edition": { "id": "2026-07", "label": "July 2026", "data": "/data/ca/brush-fire-risk/2026-07/" },
+  "images": { "card": "tiers" },
+  "tiles": [
+    { "value": "631", "label": "Extreme Tier ZIPs" },
+    { "value": "299", "label": "High Tier ZIPs" },
+    { "value": "24.3%", "label": "Homes in High or Extreme" }
+  ],
   "tiers": { "ramp": "wf", "labels": ["Low", "Moderate", "High", "Extreme"] },
+  "stats": [
+    { "value": "631", "label": "Extreme tier ZIP codes, 35% of all California ZIP codes" },
+    {
+      "value": "9.4%",
+      "label": "of California homes sit in Extreme tier ZIP codes, 1.37M of 14.64M housing units",
+      "highlight": true
+    },
+    { "value": "24.3%", "label": "of homes sit in High or Extreme ZIP codes, across 930 ZIP codes" }
+  ],
   "sections": [
     {
-      "id": "summary",
-      "title": "Summary",
-      "sub": "1,803 ZIP codes scored",
-      "items": [
-        {
-          "type": "figures",
-          "items": [
-            { "value": "631", "label": "Extreme tier ZIP codes", "detail": "35% of California ZIP codes" },
-            {
-              "value": "9.4%",
-              "label": "Of California homes in Extreme ZIP codes",
-              "detail": "1.37M of 14.64M housing units"
-            },
-            { "value": "299", "label": "High tier ZIP codes", "detail": "14.9% of housing units" },
-            { "value": "24.3%", "label": "Of homes in High or Extreme ZIP codes", "detail": "930 ZIP codes" },
-            { "value": "309", "label": "Moderate tier ZIP codes", "detail": "23.4% of housing units" },
-            {
-              "value": "52.3%",
-              "label": "Of homes in Low tier ZIP codes",
-              "detail": "564 ZIP codes, 7.67M housing units"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "map",
-      "title": "Statewide risk map",
-      "sub": "Composite brush fire tier, all 1,803 ZIP codes",
+      "title": "Statewide Risk Map",
+      "titleSub": "All 1,803 ZIP Codes.",
+      "nav": "Risk Map",
+      "intro": "Composite brush fire tier for every populated ZIP code. Over half of California's homes sit in Low tier ZIP codes.",
+      "blurb": "Every populated ZIP code by brush fire tier, Low to Extreme.",
       "items": [
         {
           "type": "cols",
@@ -52,7 +45,7 @@
             {
               "type": "map",
               "map": "tiers",
-              "title": "Brush fire tier",
+              "title": "Brush Fire Tier",
               "alt": "Dot map of California ZIP codes colored by brush fire tier",
               "legend": [
                 { "label": "Low", "color": "wf-0", "n": "564 ZIPs, 52.3% of homes" },
@@ -64,7 +57,7 @@
             },
             {
               "type": "facts",
-              "title": "Reading the map",
+              "title": "Reading the Map",
               "items": [
                 {
                   "key": "Many ZIPs, few homes",
@@ -86,15 +79,18 @@
     },
     {
       "id": "scoring",
-      "title": "How the score works",
-      "sub": "Public federal data, built on the recipe of the commercial models",
+      "title": "How the Score Works",
+      "titleSub": "Public Data, Commercial Recipe.",
+      "nav": "Scoring",
+      "intro": "The composite rebuilds the recipe of the licensed property-level models from public federal data.",
+      "blurb": "The commercial models it mirrors, the composite weights and the tier rules.",
       "items": [
         {
           "type": "cols",
           "items": [
             {
               "type": "facts",
-              "title": "The commercial models",
+              "title": "The Commercial Models",
               "items": [
                 {
                   "key": "FireLine",
@@ -120,7 +116,7 @@
             },
             {
               "type": "bars",
-              "title": "Composite weights",
+              "title": "Composite Weights",
               "bars": [
                 {
                   "label": "NRI wildfire risk score",
@@ -154,7 +150,7 @@
           "items": [
             {
               "type": "facts",
-              "title": "Tier rules",
+              "title": "Tier Rules",
               "items": [
                 {
                   "tier": 3,
@@ -170,7 +166,7 @@
             },
             {
               "type": "facts",
-              "title": "Reference points",
+              "title": "Reference Points",
               "items": [
                 {
                   "key": "Known fire ZIPs",
@@ -192,9 +188,11 @@
     },
     {
       "id": "extreme-high",
-      "title": "Extreme and High tier ZIP codes",
-      "nav": "Extreme and High tiers",
-      "sub": "The ZIP codes to review before targeting home insurance",
+      "title": "Extreme and High Tiers",
+      "titleSub": "930 ZIP Codes.",
+      "nav": "Extreme and High",
+      "intro": "The ZIP codes to review before targeting home insurance, and the share of homes each tier removes.",
+      "blurb": "The 930 ZIP codes to review before targeting home insurance.",
       "items": [
         {
           "type": "cols",
@@ -203,25 +201,25 @@
             {
               "type": "map",
               "map": "extreme-high",
-              "title": "Extreme and High tiers",
+              "title": "Extreme and High Tiers",
               "alt": "Dot map of California ZIP codes in the Extreme and High brush fire tiers",
               "legend": [
                 { "label": "Extreme", "color": "wf-3", "n": "631 ZIPs, 9.4% of homes" },
                 { "label": "High", "color": "wf-2", "n": "299, 14.9%" },
-                { "label": "Low or Moderate", "color": "other", "n": "873, 75.7%" }
+                { "label": "Low or Moderate", "color": "dot-other", "n": "873, 75.7%" }
               ],
               "foot": "Leaving out all 631 Extreme ZIP codes removes <b>9.4%</b> of California's homes from a home insurance campaign. Leaving out the High tier as well removes 24.3%."
             },
             {
               "type": "table",
-              "title": "Largest Extreme tier ZIP codes by housing units",
+              "title": "Largest Extreme Tier ZIPs by Housing Units",
               "columns": [
                 { "label": "ZIP" },
                 { "label": "City" },
                 { "label": "County" },
-                { "label": "Score", "align": "r" },
-                { "label": "Homes in high-risk tracts", "align": "r" },
-                { "label": "Housing units", "align": "r" }
+                { "label": "Score", "align": "end" },
+                { "label": "Homes in high-risk tracts", "align": "end" },
+                { "label": "Housing units", "align": "end" }
               ],
               "rows": [
                 ["92592", "Temecula", "Riverside", "81.6", "61%", "26,036"],
@@ -248,7 +246,10 @@
     {
       "id": "socal",
       "title": "Southern California",
-      "sub": "Los Angeles, Orange, Inland Empire and San Diego",
+      "titleSub": "Los Angeles to San Diego.",
+      "nav": "Southern California",
+      "intro": "Los Angeles, Orange, the Inland Empire and San Diego, with county exposure statewide.",
+      "blurb": "The mountain rims and growth corridors around the Southern California metros.",
       "items": [
         {
           "type": "cols",
@@ -257,24 +258,24 @@
             {
               "type": "map",
               "map": "socal",
-              "title": "Extreme and High tiers, Southern California",
+              "title": "Extreme and High Tiers, Southern California",
               "alt": "Dot map of Southern California ZIP codes in the Extreme and High brush fire tiers",
               "legend": [
                 { "label": "Extreme", "color": "wf-3", "n": "138 ZIPs" },
                 { "label": "High", "color": "wf-2", "n": "106" },
-                { "label": "Low or Moderate", "color": "other", "n": "445" }
+                { "label": "Low or Moderate", "color": "dot-other", "n": "445" }
               ],
               "foot": "The metro flatlands and the coast are Low or Moderate. Extreme and High ZIP codes trace the San Gabriel and San Bernardino mountain rims, the Santa Monica Mountains, the brush country of the Riverside growth corridor and San Diego's east county."
             },
             {
               "type": "table",
-              "title": "County exposure",
+              "title": "County Exposure",
               "columns": [
                 { "label": "County" },
-                { "label": "Housing units", "align": "r" },
-                { "label": "Extreme", "align": "r" },
-                { "label": "High or Extreme", "align": "r" },
-                { "label": "Extreme ZIPs", "align": "r" }
+                { "label": "Housing units", "align": "end" },
+                { "label": "Extreme", "align": "end" },
+                { "label": "High or Extreme", "align": "end" },
+                { "label": "Extreme ZIPs", "align": "end" }
               ],
               "rows": [
                 ["El Dorado", "94,850", "72.6%", "100.0%", "21"],
@@ -296,9 +297,11 @@
     },
     {
       "id": "households",
-      "title": "High and Extreme ZIP codes with the most households",
-      "nav": "Large High and Extreme ZIPs",
-      "sub": "Suburbs where a blanket exclusion costs the most volume",
+      "title": "Large High and Extreme ZIPs",
+      "titleSub": "Where Volume Is at Stake.",
+      "nav": "Large ZIPs",
+      "intro": "Suburbs where a blanket exclusion costs the most households.",
+      "blurb": "Growing, higher-income suburbs that sit in the top two tiers.",
       "items": [
         {
           "type": "table",
@@ -306,10 +309,10 @@
             { "label": "ZIP" },
             { "label": "City" },
             { "label": "County" },
-            { "label": "Score", "align": "r" },
+            { "label": "Score", "align": "end" },
             { "label": "Tier" },
-            { "label": "Households", "align": "r" },
-            { "label": "Median income", "align": "r" }
+            { "label": "Households", "align": "end" },
+            { "label": "Median income", "align": "end" }
           ],
           "rows": [
             ["92592", "Temecula", "Riverside", "81.6", {"tier": 3}, "25,004", "$134,313"],
@@ -321,26 +324,27 @@
             ["92399", "Yucaipa", "San Bernardino", "86.4", {"tier": 3}, "18,842", "$92,440"],
             ["92028", "Fallbrook", "San Diego", "93.3", {"tier": 3}, "17,149", "$111,290"]
           ],
-          "foot": "The top two tiers are not only hillside enclaves. They include fast-growing, higher-income suburbs built on brush-adjacent land. Check each of these ZIP codes against carrier appetite before excluding it."
+          "foot": "The top two tiers are not only hillside enclaves. They include fast-growing, higher-income suburbs built on brush-adjacent land. Check each of these ZIP codes against carrier appetite before excluding it.",
+          "title": "Largest High and Extreme ZIPs by Households"
         }
       ]
     }
   ],
   "methods": [
     {
-      "title": "Sources.",
+      "title": "Tracts to ZIP Codes",
       "text": "FEMA National Risk Index (December 2025) for all 9,106 California census tracts, matched to 2020 Census ZIP Code Tabulation Areas. U.S. Census Bureau American Community Survey 2020-2024 5-year estimates for housing weights and households."
     },
     {
-      "title": "Composite score.",
+      "title": "Composite Score",
       "text": "NRI wildfire risk score (35%), share of homes in high-risk tracts (25%), building loss rate (15%), fire frequency (15%) and resilience gap (10%). Each tract counts toward a ZIP code in proportion to the housing units it contributes. Tiers follow the rules in the scoring section."
     },
     {
-      "title": "Scope.",
+      "title": "Scope",
       "text": "A ZIP-level screen for targeting. Carriers score each property with the commercial models above, and the CAL FIRE Fire Hazard Severity Zone maps (updated February-March 2025) carry the regulatory designations. A Low ZIP code can still contain higher-risk pockets."
     },
     {
-      "title": "Comparison with other reports.",
+      "title": "Comparison with Other Reports",
       "text": "These tiers rank California ZIP codes on their own rules. They are not on the same scale as the wildfire tiers in other states' Home Risk Maps."
     }
   ]

@@ -1,10 +1,19 @@
-{#- Expects `p`: an entry from reportPages. tags.line is one line or a list. -#}
-{%- set lines = [p.report.tags.line] if p.report.tags.line is string else p.report.tags.line -%}
+{#- Expects `p`: an entry from reportPages. -#}
+{%- set cardLayer = p.report.images.card if p.report.images else p.report.map.layers[0].id %}
 <a class="rcard" href="{{ p.url | noslash }}">
-  <span class="rc-tags">{% for l in lines %}{{ taxonomy.line[l] }}{{ " and " if not loop.last }}{% endfor %} · {{ taxonomy.format[p.report.tags.format] }}</span>
-  <span class="rc-title">{{ p.report.title }}</span>
-  <span class="rc-text">{{ p.report.card }}</span>
-  <span class="rc-meta">{{ p.edition.label }} edition
-    {%- for peril in p.report.tags.perils %} · {{ taxonomy.perils[peril] }}{% endfor -%}
+  <img src="{{ p.images[cardLayer] }}" alt="" width="1000" height="525" loading="lazy">
+  <span class="rc-body">
+    <span class="tags">
+      {%- for l in p.report.tags.line | lines %}<span class="tag brand">{{ taxonomy.line[l] }}</span>{% endfor %}
+      <span class="tag">{{ taxonomy.format[p.report.tags.format] }}</span>
+    </span>
+    <span class="rc-title">{{ p.report.title }}</span>
+    <span class="rc-text">{{ p.report.card }}</span>
+    <span class="rc-meta">
+      <span>{{ p.edition.label }} edition
+        {%- for peril in p.report.tags.perils %} · {{ taxonomy.perils[peril] }}{% endfor -%}
+      </span>
+      <span class="go">Open Report</span>
+    </span>
   </span>
 </a>

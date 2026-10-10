@@ -8,14 +8,15 @@
     "build": "eleventy",
     "dev": "eleventy --serve --port 8080",
     "check": "python3 -I pipeline/check_parity.py",
-    "vendor": "cat node_modules/d3-dispatch/dist/d3-dispatch.min.js node_modules/d3-selection/dist/d3-selection.min.js node_modules/d3-color/dist/d3-color.min.js node_modules/d3-interpolate/dist/d3-interpolate.min.js node_modules/d3-timer/dist/d3-timer.min.js node_modules/d3-ease/dist/d3-ease.min.js node_modules/d3-transition/dist/d3-transition.min.js node_modules/d3-drag/dist/d3-drag.min.js node_modules/d3-zoom/dist/d3-zoom.min.js > src/assets/js/vendor/d3-zoom.min.js && cp node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2 src/assets/fonts/Inter-Variable.woff2 && cp node_modules/@fontsource-variable/inter/LICENSE src/assets/fonts/Inter-LICENSE.txt"
+    "vendor": "cat node_modules/d3-dispatch/dist/d3-dispatch.min.js node_modules/d3-selection/dist/d3-selection.min.js node_modules/d3-color/dist/d3-color.min.js node_modules/d3-interpolate/dist/d3-interpolate.min.js node_modules/d3-timer/dist/d3-timer.min.js node_modules/d3-ease/dist/d3-ease.min.js node_modules/d3-transition/dist/d3-transition.min.js node_modules/d3-drag/dist/d3-drag.min.js node_modules/d3-zoom/dist/d3-zoom.min.js > src/assets/js/vendor/d3-zoom.min.js && cp node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2 src/assets/fonts/Sora-Variable.woff2 && cp node_modules/@fontsource-variable/sora/LICENSE src/assets/fonts/Sora-LICENSE.txt && cp node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2 src/assets/fonts/Outfit-Variable.woff2 && cp node_modules/@fontsource-variable/outfit/LICENSE src/assets/fonts/Outfit-LICENSE.txt"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
-    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/outfit": "5.3.0",
+    "@fontsource-variable/sora": "5.3.0",
     "d3-color": "3.1.0",
     "d3-dispatch": "3.0.1",
     "d3-drag": "3.0.0",

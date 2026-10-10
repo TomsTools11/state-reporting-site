@@ -1,0 +1,8 @@
+{#- Compact color key for a static map image. Expects `L` (a resolved layer) and `M` (the report's map config). -#}
+<ul class="map-key">
+  {%- if L.type == "tier" %}
+  {%- for t in M.tierLabels %}<li><span class="sw" style="background:var(--{{ L.ramp }}-{{ loop.index0 }})"></span>{{ t }}</li>{% endfor %}
+  {%- elif L.type == "category" %}
+  {%- for c in L.categories %}<li><span class="sw" style="background:var(--{{ c.color }})"></span>{{ c.label }}</li>{% endfor %}
+  {%- endif %}
+</ul>
