@@ -12,6 +12,9 @@ const MAP_COLORS = {
   'wf-0': '#3a3428', 'wf-1': '#7d5d1f', 'wf-2': '#c98a1c', 'wf-3': '#fbbf24',
   prime: '#057be5', review: '#56637a', other: '#1e2834', nodata: '#12171d',
   edge: '#0d1117', state: '#64748b',
+  // Dot maps in research briefs
+  'inc-0': '#1d3a5c', 'inc-1': '#1f5f9e', 'inc-2': '#2b86da', 'inc-3': '#64adf2', 'inc-4': '#b4dbff',
+  'dot-other': '#2a3442', 'dot-nodata': '#1b222b', renter: '#057be5', core900: '#b4dbff',
 };
 
 // The layer settings for one view: the base layer plus its per-view overrides.
@@ -58,6 +61,14 @@ function mapSvg(report, geo, attrs, layerId, viewId) {
     `<path d="${outline}" fill="none" stroke="${MAP_COLORS.state}" stroke-width="1.2" stroke-linejoin="round"/></svg>`;
 }
 
+// A static SVG of a brief's dot map, padded to the 1000 x 525 card shape and centered.
+function dotMapSvg(m) {
+  const h = m.height, w = Math.max(m.width, h * 1000 / 525), x = (m.width - w) / 2;
+  const dots = m.groups.map(g => `<g fill="${MAP_COLORS[g.color]}">` +
+    g.dots.map(([cx, cy, r]) => `<circle cx="${cx}" cy="${cy}" r="${r}"/>`).join('') + '</g>').join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} 0 ${w} ${h}" width="1000" height="525">${dots}</svg>`;
+}
+
 // Rows for a report's table: one cell per column, filled from the area's record.
 function tableRows(report, attrs) {
   const T = report.table;
@@ -83,8 +94,15 @@ function reportPages() {
   cache = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort().map(file => {
     const report = readJson(path.join(dir, file));
     const meta = readJson(path.join(SRC, report.edition.data, 'meta.json'));
-    const attrs = readJson(path.join(SRC, report.edition.data, 'attrs.json'));
     const url = `/${report.state}/${report.slug}/`;
+    // Research briefs: dot maps drawn at build time from the edition's maps.json, and one
+    // static image (report.images.card names the map) for the cards.
+    if (report.template === 'brief') {
+      const maps = readJson(path.join(SRC, report.edition.data, 'maps.json'));
+      const card = report.images.card;
+      return { report, edition: report.edition, meta, url, maps, images: { [card]: `${url}map-${card}.svg` }, rows: [] };
+    }
+    const attrs = readJson(path.join(SRC, report.edition.data, 'attrs.json'));
     // Static map images, one per layer, in the first view.
     const view = report.map.views[0].id;
     const images = Object.fromEntries(report.map.layers.map(l => [l.id, `${url}map-${l.id}.svg`]));
@@ -95,6 +113,7 @@ function reportPages() {
 
 function mapImages() {
   return reportPages().flatMap(p => {
+    if (p.maps) return Object.keys(p.images).map(k => ({ url: p.images[k], svg: dotMapSvg(p.maps[k]) }));
     const geo = readJson(path.join(SRC, p.report.geo));
     const attrs = readJson(path.join(SRC, p.edition.data, 'attrs.json'));
     return p.report.map.layers.map(l => ({ url: p.images[l.id], svg: mapSvg(p.report, geo, attrs, l.id, p.view) }));
@@ -127,6 +146,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter('jsonScript', value => JSON.stringify(value).replace(/</g, '\\u003c'));
   eleventyConfig.addFilter('values', obj => Object.values(obj || {}));
   eleventyConfig.addFilter('merge', (a, b) => ({ ...a, ...b }));
+  // A report's lines of business as a list (tags.line is one line or several).
+  eleventyConfig.addFilter('lines', line => [].concat(line));
   eleventyConfig.addFilter('layerView', (map, layerId, viewId) => resolveLayer(map, layerId, viewId));
 
   // Client-identifying text must never ship. Reports here are built from public data only.

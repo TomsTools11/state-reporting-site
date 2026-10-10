@@ -3,6 +3,11 @@
   "featured": "ok-home-risk",
   "tagline": "Weather and market reports by state, built from public data.",
   "states": {
+    "ca": {
+      "name": "California",
+      "postal": "CA",
+      "intro": "Brush fire risk and household demographics for all 1,803 populated California ZIP codes. Use them to decide which ZIPs your agency targets for home and auto."
+    },
     "ok": {
       "name": "Oklahoma",
       "postal": "OK",

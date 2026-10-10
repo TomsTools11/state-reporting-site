@@ -1,0 +1,128 @@
+/* Research brief template, GOAL design system. Loads after heatmap.css and reuses its panels,
+   legend, table, methods and pills; this file adds dot maps, bar charts, fact lists and layout. */
+
+.lead a { color: var(--brand-text) }
+.lead a:hover { color: var(--ink) }
+.brief-section { padding-top: 88px }
+.brief-section .sec-head p { max-width: 460px }
+.brief-section .sec-head p b { color: var(--ink-soft); font-weight: 600 }
+.panel a, .legend-foot a, .method a { color: var(--brand-text) }
+.panel a:hover, .legend-foot a:hover, .method a:hover { color: var(--ink) }
+
+/* Layout */
+.stack { display: grid; gap: 24px; min-width: 0; align-content: start }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 24px; align-items: start }
+.cols.map-left { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) }
+.panel { min-width: 0 }
+.panel > h3, .tb-title { font: 700 16px/24px var(--font-display); color: var(--ink); margin-bottom: 16px }
+.panel > .legend-foot b, .tb-foot b { color: var(--ink-soft); font-weight: 600 }
+
+/* Figures inside a section: the hero stat card at a smaller size */
+.fig-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 24px }
+.fig-grid .stat-v { font-size: 40px; letter-spacing: -1px }
+.stat-d { display: block; margin-top: 2px; color: var(--ink-muted); opacity: .8 }
+
+/* Dot maps: one dot per ZIP code at its center, sized by housing units */
+.dot-card { margin: 0 }
+.dot-frame { border-radius: var(--radius-md); background: var(--ground); border: 1px solid var(--border-subtle); padding: 12px }
+.dotmap { display: block; width: 100%; height: auto }
+.dm-dot-nodata { fill: var(--dot-nodata) }
+.dm-dot-other { fill: var(--dot-other); fill-opacity: .8 }
+.dm-inc-0 { fill: var(--inc-0) } .dm-inc-1 { fill: var(--inc-1) } .dm-inc-2 { fill: var(--inc-2) }
+.dm-inc-3 { fill: var(--inc-3) } .dm-inc-4 { fill: var(--inc-4) }
+.dm-wf-0 { fill: var(--wf-0) } .dm-wf-1 { fill: var(--wf-1) } .dm-wf-2 { fill: var(--wf-2) } .dm-wf-3 { fill: var(--wf-3) }
+.dm-renter { fill: var(--renter) }
+.dm-core900 { fill: var(--core900) }
+.dotmap g[class^="dm-inc"], .dotmap g[class^="dm-wf"], .dm-renter, .dm-core900 { fill-opacity: .9 }
+.dm-places circle { fill: var(--place-ink); stroke: var(--place-halo) }
+.dm-places text { font-family: var(--font-sans); font-weight: 600; fill: var(--place-ink); stroke: var(--place-halo); stroke-width: 3; stroke-linejoin: round; paint-order: stroke }
+.dot-legend { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 24px }
+.dot-legend li { display: flex; align-items: center; gap: 8px }
+.dot-legend .n { font-size: 12px; text-align: left }
+.dot-legend .sw { width: 12px; height: 12px; border-radius: 50% }
+
+/* Bar charts */
+.bars { list-style: none; display: grid; gap: 12px }
+.bars li { display: grid; grid-template-columns: minmax(130px, 36%) minmax(0, 1fr) 4.4em; gap: 14px; align-items: center }
+.bl { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink) }
+.bl small { display: block; font-size: 12px; line-height: 16px; font-weight: 400; color: var(--ink-muted) }
+.bt { height: 10px; border-radius: var(--radius-full); background: var(--surface-raised); overflow: hidden }
+.bf { display: block; height: 100%; border-radius: var(--radius-full); background: var(--brand) }
+.bf.light { background: var(--bar-soft) }
+.bf.pale { background: var(--border-strong) }
+.bv { font: 700 14px/20px var(--font-display); color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap }
+
+/* Tables (the heat map's table box, with an optional title and note) */
+.table-box { min-width: 0 }
+.tb-title { padding: 20px 20px 0; margin-bottom: 4px }
+.tb-scroll { overflow-x: auto }
+.table-box .dtable { min-width: 560px }
+/* Beside a map, a table fits its column: headers wrap and cells pad less */
+.cols .table-box .dtable { min-width: 0 }
+.cols .dtable th { white-space: normal; vertical-align: bottom }
+.cols .dtable th, .cols .dtable td { padding-left: 8px; padding-right: 8px }
+.cols .dtable th:first-child, .cols .dtable td:first-child { padding-left: 20px }
+.cols .dtable th:last-child, .cols .dtable td:last-child { padding-right: 20px }
+.dtable td { vertical-align: top }
+.dtable .sub { display: block; font-size: 12px; line-height: 16px; color: var(--ink-muted) }
+.tier { white-space: nowrap }
+.tb-foot { margin: 0; padding: 12px 20px 16px }
+
+/* Fact lists */
+.facts { display: grid; font-size: 14px; line-height: 21px }
+.facts > div { display: grid; grid-template-columns: 136px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--border-subtle) }
+.facts > div:first-child { border-top: 0; padding-top: 0 }
+.facts dt { color: var(--ink-muted); font-size: 13px }
+.facts dt .tier { color: var(--ink); font-size: 14px; font-weight: 600 }
+.facts dd { color: var(--ink-soft) }
+.facts dd b { color: var(--ink); font-weight: 600 }
+
+@media (max-width: 1100px) {
+  .cols.map-left { grid-template-columns: minmax(0, 1fr) }
+}
+@media (max-width: 760px) {
+  .brief-section { padding-top: 64px }
+  .fig-grid .stat-v { font-size: 34px }
+}
+@media (max-width: 560px) {
+  .fig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px }
+  .fig-grid .stat { padding: 16px }
+  .fig-grid .stat-v { font-size: 26px; letter-spacing: -.5px }
+  .facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px }
+  .bars li { grid-template-columns: minmax(0, 1fr) 4.4em; row-gap: 6px }
+  .bl { grid-column: 1 / -1 }
+  .dot-frame { padding: 6px }
+}
+
+@media print {
+  .brief-section { padding: 0; margin-bottom: 14px }
+  /* Block flow (not grid) so a section heading stays with what follows it */
+  .stack { display: block }
+  .stack > * + * { margin-top: 8px }
+  .sec-head { break-inside: avoid; break-after: avoid }
+  .cols, .cols.map-left { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px }
+  .panel { padding: 10px 12px; border-radius: 8px; break-inside: avoid; box-shadow: none }
+  .panel > h3, .tb-title { font-size: 9pt; line-height: 1.3; margin-bottom: 6px }
+  .tb-title { padding: 8px 8px 0 }
+  .table-box { break-inside: avoid }
+  .table-box .dtable { min-width: 0 }
+  .dtable th { white-space: normal }
+  .dtable .sub { font-size: 7pt; line-height: 1.2 }
+  .tb-foot { padding: 6px 8px 8px }
+  .legend-foot { font-size: 7.5pt; line-height: 1.4; margin-top: 6px; padding-top: 6px }
+  .fig-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; break-inside: avoid }
+  .fig-grid .stat-v { font-size: 14pt }
+  .dot-frame { padding: 4px; border-radius: 6px }
+  .dotmap { max-height: 4.4in; width: auto; max-width: 100%; margin: 0 auto }
+  .dot-legend { margin-top: 6px; gap: 3px 12px }
+  .dot-legend li { font-size: 7.5pt; line-height: 1.3 }
+  .dot-legend .n { font-size: 7pt }
+  .dot-legend .sw { width: 8px; height: 8px }
+  .bars { gap: 4px }
+  .bl, .bv { font-size: 8pt; line-height: 1.3 }
+  .bl small { font-size: 7pt }
+  .bt { height: 7px }
+  .facts { font-size: 8pt; line-height: 1.35 }
+  .facts > div { padding: 4px 0; gap: 8px; grid-template-columns: 1in minmax(0, 1fr) }
+  .facts dt, .facts dt .tier { font-size: 7.5pt }
+}

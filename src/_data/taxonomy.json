@@ -19,6 +19,7 @@
   },
   "format": {
     "risk-map": "Risk Map",
+    "risk-brief": "Risk Brief",
     "storm-recap": "Storm Recap",
     "market-brief": "Market Brief"
   },

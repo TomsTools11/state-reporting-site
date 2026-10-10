@@ -37,7 +37,7 @@ permalink: "/{{ st.id }}/"
       <div class="rf-map"><img src="{{ p.images[cardLayer] }}" alt="" width="1000" height="525"></div>
       <div class="rf-body">
         <div class="tags">
-          <span class="tag brand">{{ taxonomy.line[p.report.tags.line] }}</span>
+          {%- for l in p.report.tags.line | lines %}<span class="tag brand">{{ taxonomy.line[l] }}</span>{% endfor %}
           <span class="tag">{{ taxonomy.format[p.report.tags.format] }}</span>
           {%- for peril in p.report.tags.perils %}<span class="tag">{{ taxonomy.perils[peril] }}</span>{% endfor %}
         </div>
@@ -61,6 +61,22 @@ permalink: "/{{ st.id }}/"
 
   {%- for p in st.reports %}
   <section class="section" aria-labelledby="inside-{{ p.report.id }}">
+    {%- if p.report.template == "brief" %}
+    <div class="sec-head">
+      <h2 class="section-title" id="inside-{{ p.report.id }}">What the {{ p.report.shortTitle }} Report Covers<br><span class="muted">{{ p.report.sections | length }} Sections.</span></h2>
+    </div>
+    <div class="layer-cards">
+      {%- for sec in p.report.sections %}
+      <a class="layer-card" href="{{ p.url | noslash }}#{{ sec.id }}">
+        <span class="lc-body">
+          <span class="lc-title">{{ sec.title }}</span>
+          <span class="lc-text">{{ sec.blurb }}</span>
+        </span>
+      </a>
+      {%- endfor %}
+    </div>
+  </section>
+  {%- else %}
     <div class="sec-head">
       <h2 class="section-title" id="inside-{{ p.report.id }}">What the {{ p.report.shortTitle }} Shows<br><span class="muted">{{ p.report.map.layers | length }} Layers, {{ p.report.map.views | length }} Views.</span></h2>
     </div>
@@ -76,6 +92,7 @@ permalink: "/{{ st.id }}/"
       {%- endfor %}
     </div>
   </section>
+  {%- endif %}
   {%- endfor %}
 </div>
 {% endblock %}

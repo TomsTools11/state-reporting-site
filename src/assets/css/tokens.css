@@ -68,6 +68,12 @@
   --sev-0: #3b3038; --sev-1: #80404a; --sev-2: #cc5640; --sev-3: #ff8f66;
   --wf-0: #3a3428; --wf-1: #7d5d1f; --wf-2: #c98a1c; --wf-3: #fbbf24;
 
+  /* Dot maps in research briefs: median household income (lighter = higher), urban renter cores */
+  --inc-0: #1d3a5c; --inc-1: #1f5f9e; --inc-2: #2b86da; --inc-3: #64adf2; --inc-4: #b4dbff;
+  --dot-other: #2a3442; --dot-nodata: #1b222b;
+  --renter: var(--brand); --core900: #b4dbff;
+  --bar-soft: rgba(5, 123, 229, .45);
+
   /* Map: status and structure */
   --prime: var(--brand);
   --review: #56637a;

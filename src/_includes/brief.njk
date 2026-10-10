@@ -1,0 +1,181 @@
+{% extends "base.njk" %}
+{% from "icons.njk" import icon %}
+{#- Report template for research briefs: sections of figures, dot maps, bar charts, tables and
+    fact lists. Everything report-specific comes from the report config
+    (src/_data/reports/<id>.json); dot maps come from the edition's maps.json. Text fields may
+    hold inline HTML (<b>, <a>). -#}
+
+{% block title %}{{ report.title }} · GOAL{% endblock %}
+{% block description %}{{ report.summary }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="/assets/css/heatmap.css">
+<link rel="stylesheet" href="/assets/css/brief.css">{% endblock %}
+
+{% block printhead %}
+<p class="pt-eb">{{ report.eyebrow }}</p>
+<p class="pt-title">{{ report.title }}</p>
+<p class="pt-meta">{{ edition.label }} edition · Data from {{ report.sourcesShort }}</p>
+{% endblock %}
+
+{#- A tier label with its swatch, e.g. { "tier": 3 } -> Extreme. -#}
+{% macro tier(n) -%}
+<span class="tier"><span class="tiersq" style="background:var(--{{ report.tiers.ramp }}-{{ n }})"></span>{{ report.tiers.labels[n] }}</span>
+{%- endmacro %}
+
+{% macro cell(c) -%}
+{%- if c.tier is defined %}{{ tier(c.tier) }}
+{%- elif c.text is defined %}{{ c.text | safe }}{% if c.sub %}<span class="sub">{{ c.sub | safe }}</span>{% endif %}
+{%- else %}{{ c | safe }}{% endif -%}
+{%- endmacro %}
+
+{% macro foot(it) -%}
+{%- if it.foot %}<p class="legend-foot">{{ it.foot | safe }}</p>{% endif -%}
+{%- endmacro %}
+
+{% macro leaf(it) %}
+{%- if it.type == "figures" %}
+<div class="fig-grid">
+  {%- for f in it.items %}
+  <div class="stat"><div class="stat-v">{{ f.value }}</div><p class="stat-k">{{ f.label | safe }}{% if f.detail %}<span class="stat-d">{{ f.detail | safe }}</span>{% endif %}</p></div>
+  {%- endfor %}
+</div>
+
+{%- elif it.type == "map" %}
+{%- set m = pg.maps[it.map] %}
+{#- Smaller maps draw larger on screen, so their labels shrink to stay close to the statewide maps. -#}
+{%- set k = (m.width / 640) ** 0.5 %}
+<figure class="panel dot-card">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <div class="dot-frame">
+    <svg class="dotmap" viewBox="0 0 {{ m.width }} {{ m.height }}" role="img" aria-label="{{ it.alt }}">
+      {%- for g in m.groups %}
+      <g class="dm-{{ g.color }}">{% for d in g.dots %}<circle cx="{{ d[0] }}" cy="{{ d[1] }}" r="{{ d[2] }}"/>{% endfor %}</g>
+      {%- endfor %}
+      <g class="dm-places" font-size="{{ (12.5 * k) | round(2) }}">{% for p in m.places %}<circle cx="{{ p.x }}" cy="{{ p.y }}" r="{{ (2.6 * k) | round(2) }}"/><text x="{{ (p.x + (p.tx - p.x) * k) | round(1) }}" y="{{ (p.y + (p.ty - p.y) * k) | round(1) }}">{{ p.label }}</text>{% endfor %}</g>
+    </svg>
+  </div>
+  {%- if it.legend %}
+  <ul class="legend dot-legend">
+    {%- for l in it.legend %}
+    <li><span class="sw" style="background:var(--{{ l.color }})"></span><span>{{ l.label | safe }}</span><span class="n">{{ l.n or "" }}</span></li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+  {%- if it.foot %}<figcaption class="legend-foot">{{ it.foot | safe }}</figcaption>{% endif %}
+</figure>
+
+{%- elif it.type == "bars" %}
+<div class="panel">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <ul class="bars">
+    {%- for b in it.bars %}
+    <li><span class="bl">{{ b.label | safe }}{% if b.sub %}<small>{{ b.sub }}</small>{% endif %}</span><span class="bt"><span class="bf{% if b.tone %} {{ b.tone }}{% endif %}" style="width:{{ b.pct }}%"></span></span><span class="bv">{{ b.value }}</span></li>
+    {%- endfor %}
+  </ul>
+  {{ foot(it) }}
+</div>
+
+{%- elif it.type == "table" %}
+<div class="table-box">
+  {%- if it.title %}<h3 class="tb-title">{{ it.title }}</h3>{% endif %}
+  <div class="tb-scroll">
+    <table class="dtable">
+      <thead><tr>{% for c in it.columns %}<th scope="col"{% if c.align == "end" %} class="end"{% endif %}>{{ c.label | safe }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {%- for row in it.rows %}
+        <tr>{% for c in row %}{% set col = it.columns[loop.index0] %}<td class="{{ 'strong' if loop.first else '' }}{{ ' end' if col.align == 'end' }}">{{ cell(c) }}</td>{% endfor %}</tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+  {%- if it.foot %}<p class="legend-foot tb-foot">{{ it.foot | safe }}</p>{% endif %}
+</div>
+
+{%- elif it.type == "facts" %}
+<div class="panel">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <dl class="facts">
+    {%- for f in it.items %}
+    <div><dt>{% if f.tier is defined %}{{ tier(f.tier) }}{% else %}{{ f.key | safe }}{% endif %}</dt><dd>{{ f.text | safe }}</dd></div>
+    {%- endfor %}
+  </dl>
+  {{ foot(it) }}
+</div>
+{%- endif %}
+{% endmacro %}
+
+{#- Layout wrappers: "cols" sets items side by side, "stack" stacks them; both nest. -#}
+{% macro part(it) %}
+{%- if it.type == "cols" or it.type == "stack" %}
+<div class="{{ it.type }}{% if it.layout %} {{ it.layout }}{% endif %}">{% for x in it.items %}{{ part(x) }}{% endfor %}</div>
+{%- else %}{{ leaf(it) }}{% endif %}
+{% endmacro %}
+
+{% block content %}
+{%- set stateName = site.states[report.state].name -%}
+<section class="hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">All States</a><span class="sep" aria-hidden="true">/</span><a href="/{{ report.state }}">{{ stateName }}</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">{{ report.shortTitle }}</span>
+    </nav>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <span class="badge">{{ report.eyebrow }}</span>
+        <h1 class="display">{{ report.title }}<br><span class="accent">{{ edition.label }} Edition</span></h1>
+        <p class="lead">{{ (report.intro or report.summary) | safe }}</p>
+      </div>
+      <div class="actions report-actions">
+        <button type="button" class="btn btn-ghost" id="copyLink">{{ icon("link") }}<span>Copy Link</span></button>
+        <button type="button" class="btn btn-ghost" id="printReport">{{ icon("printer") }}<span>Print or Save PDF</span></button>
+      </div>
+    </div>
+
+    <h2 class="visually-hidden" id="kf-title">Key figures</h2>
+    <div class="stat-grid key-figures" id="key-figures" aria-labelledby="kf-title">
+      {%- for s in report.stats %}
+      <div class="stat{% if s.highlight %} is-highlight{% endif %}"><div class="stat-v">{{ s.value }}</div><p class="stat-k">{{ s.label | safe }}</p></div>
+      {%- endfor %}
+    </div>
+
+    <nav class="pills" aria-label="On this page">
+      {%- for s in report.sections %}<a href="#{{ s.id }}">{{ s.nav or s.title }}</a>{% endfor %}
+      <a href="#methods">Methods and Sources</a>
+    </nav>
+  </div>
+</section>
+
+<div class="wrap">
+  {%- for s in report.sections %}
+  <section class="section brief-section" id="{{ s.id }}" aria-labelledby="{{ s.id }}-title">
+    <div class="sec-head">
+      <h2 class="section-title" id="{{ s.id }}-title">{{ s.title }}{% if s.titleSub %}<br><span class="muted">{{ s.titleSub }}</span>{% endif %}</h2>
+      {%- if s.intro %}<p>{{ s.intro | safe }}</p>{% endif %}
+    </div>
+    <div class="stack">
+      {%- for it in s.items %}{{ part(it) }}{% endfor %}
+    </div>
+  </section>
+  {%- endfor %}
+
+  <section class="section" id="methods" aria-labelledby="m-title">
+    <div class="sec-head">
+      <h2 class="section-title" id="m-title">Methods and Sources<br><span class="muted">Public Data Only.</span></h2>
+    </div>
+    <div class="methods">
+      {%- for m in report.methods %}
+      <div class="method{% if m.highlight %} is-highlight{% endif %}"><h3>{{ m.title }}</h3><p>{{ m.text | safe }}</p></div>
+      {%- endfor %}
+      <div class="method sources">
+        <h3>Data Sources</h3>
+        {%- if report.sources %}
+        <div class="tags">{% for s in report.sources %}<span class="tag strong">{{ s }}</span>{% endfor %}</div>
+        {%- else %}<p>{{ report.sourcesShort }}</p>{% endif %}
+        <p class="editions">{{ edition.label }} edition. Built from public data only.</p>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/assets/js/brief.js"></script>
+{% endblock %}

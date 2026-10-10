@@ -4,7 +4,7 @@
   <img src="{{ p.images[cardLayer] }}" alt="" width="1000" height="525" loading="lazy">
   <span class="rc-body">
     <span class="tags">
-      <span class="tag brand">{{ taxonomy.line[p.report.tags.line] }}</span>
+      {%- for l in p.report.tags.line | lines %}<span class="tag brand">{{ taxonomy.line[l] }}</span>{% endfor %}
       <span class="tag">{{ taxonomy.format[p.report.tags.format] }}</span>
     </span>
     <span class="rc-title">{{ p.report.title }}</span>

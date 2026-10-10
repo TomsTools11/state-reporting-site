@@ -20,6 +20,9 @@
   /* Light map colors: darker = higher risk on paper */
   --sev-0: #f2c4ad; --sev-1: #e08868; --sev-2: #bd4535; --sev-3: #6e1a1f;
   --wf-0: #f3dca6; --wf-1: #dfa94a; --wf-2: #a8661a; --wf-3: #5c330b;
+  --inc-0: #c7ddf3; --inc-1: #8fbee9; --inc-2: #4d9be0; --inc-3: #0f6fcb; --inc-4: #0a3e77;
+  --dot-other: #cfd6de; --dot-nodata: #e4e7eb; --core900: #0a3e77;
+  --bar-soft: #8fbee9;
   --review: #8b939e;
   --other: #cfd6de;
   --nodata: #e4e7eb;
