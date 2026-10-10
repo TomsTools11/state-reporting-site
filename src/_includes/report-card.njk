@@ -1,6 +1,7 @@
-{#- Expects `p`: an entry from reportPages. -#}
+{#- Expects `p`: an entry from reportPages. tags.line is one line or a list. -#}
+{%- set lines = [p.report.tags.line] if p.report.tags.line is string else p.report.tags.line -%}
 <a class="rcard" href="{{ p.url | noslash }}">
-  <span class="rc-tags">{{ taxonomy.line[p.report.tags.line] }} · {{ taxonomy.format[p.report.tags.format] }}</span>
+  <span class="rc-tags">{% for l in lines %}{{ taxonomy.line[l] }}{{ " and " if not loop.last }}{% endfor %} · {{ taxonomy.format[p.report.tags.format] }}</span>
   <span class="rc-title">{{ p.report.title }}</span>
   <span class="rc-text">{{ p.report.card }}</span>
   <span class="rc-meta">{{ p.edition.label }} edition

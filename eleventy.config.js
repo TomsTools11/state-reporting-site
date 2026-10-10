@@ -11,7 +11,10 @@ function reportPages() {
   return fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort().map(file => {
     const report = readJson(path.join(dir, file));
     const meta = readJson(path.join(SRC, report.edition.data, 'meta.json'));
-    return { report, edition: report.edition, meta, url: `/${report.state}/${report.slug}/` };
+    // Briefs draw their dot maps at build time from the edition's maps.json.
+    const mapsFile = path.join(SRC, report.edition.data, 'maps.json');
+    const maps = fs.existsSync(mapsFile) ? readJson(mapsFile) : {};
+    return { report, edition: report.edition, meta, maps, url: `/${report.state}/${report.slug}/` };
   });
 }
 

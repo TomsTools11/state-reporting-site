@@ -44,6 +44,10 @@
   --sev-0: #f2c4ad; --sev-1: #e08868; --sev-2: #bd4535; --sev-3: #6e1a1f;
   --wf-0: #f3dca6; --wf-1: #dfa94a; --wf-2: #a8661a; --wf-3: #5c330b;
 
+  /* Dot maps: median household income, low to high, and urban renter cores */
+  --inc-0: #c7ddf3; --inc-1: #8fbee9; --inc-2: #4d9be0; --inc-3: #0f6fcb; --inc-4: #0a3e77;
+  --renter: var(--blue); --core900: #0a3e77;
+
   /* Map: status and structure */
   --prime: var(--blue);
   --review: #8b939e;

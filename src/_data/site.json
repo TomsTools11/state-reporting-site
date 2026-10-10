@@ -2,6 +2,7 @@
   "name": "GOAL State Reports",
   "tagline": "Weather and market reports by state, built from public data.",
   "states": {
+    "ca": { "name": "California", "postal": "CA" },
     "ok": { "name": "Oklahoma", "postal": "OK" }
   }
 }

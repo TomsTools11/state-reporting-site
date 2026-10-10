@@ -1,0 +1,145 @@
+{% extends "base.njk" %}
+{#- Report template for research briefs: sections of key figures, dot maps, bar charts, tables
+    and fact lists. Everything report-specific comes from the report config
+    (src/_data/reports/<id>.json); dot maps come from the edition's maps.json. Text fields may
+    hold inline HTML (<b>, <a>). -#}
+
+{% block title %}{{ report.title }} · GOAL{% endblock %}
+{% block description %}{{ report.summary }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="/assets/css/brief.css">{% endblock %}
+
+{% block side %}
+<a class="back" href="/{{ report.state }}">&larr; {{ site.states[report.state].name }} reports</a>
+<p class="eb">{{ report.eyebrow }}</p>
+<h1>{{ report.title }}</h1>
+<p class="who"><b>{{ edition.label }} edition</b><br>Data from {{ report.sourcesShort }}</p>
+<nav aria-label="On this page">
+  {%- for s in report.sections %}
+  <a href="#{{ s.id }}"><span class="dot"></span>{{ s.nav or s.title }}</a>
+  {%- endfor %}
+  <a href="#methods"><span class="dot"></span>Methods and sources</a>
+</nav>
+{% endblock %}
+
+{% block printhead %}
+<p class="pt-eb">{{ report.eyebrow }}</p>
+<p class="pt-title">{{ report.title }}</p>
+<p class="pt-meta">{{ edition.label }} edition · Data from {{ report.sourcesShort }}</p>
+{% endblock %}
+
+{#- A tier label with its swatch, e.g. {"tier": 3} -> Extreme. -#}
+{% macro tier(n) -%}
+<span class="tier"><span class="tiersq" style="background:var(--{{ report.tiers.ramp }}-{{ n }})"></span>{{ report.tiers.labels[n] }}</span>
+{%- endmacro %}
+
+{% macro cell(c) -%}
+{%- if c.tier is defined %}{{ tier(c.tier) }}
+{%- elif c.text is defined %}{{ c.text | safe }}{% if c.sub %}<span class="sub">{{ c.sub | safe }}</span>{% endif %}
+{%- else %}{{ c | safe }}{% endif -%}
+{%- endmacro %}
+
+{% macro foot(it) -%}
+{%- if it.foot %}<p class="foot-note">{{ it.foot | safe }}</p>{% endif -%}
+{%- endmacro %}
+
+{% macro leaf(it) %}
+{%- if it.type == "figures" %}
+<div class="kgrid">
+  {%- for f in it.items %}
+  <div class="kc"><div class="v">{{ f.value }}</div><div class="k">{{ f.label | safe }}</div>{% if f.detail %}<div class="d">{{ f.detail | safe }}</div>{% endif %}</div>
+  {%- endfor %}
+</div>
+
+{%- elif it.type == "map" %}
+{%- set m = maps[it.map] %}
+<figure class="panel dotmap-card">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <svg class="dotmap" viewBox="0 0 {{ m.width }} {{ m.height }}" role="img" aria-label="{{ it.alt }}">
+    {%- for g in m.groups %}
+    <g class="dm-{{ g.color }}">{% for d in g.dots %}<circle cx="{{ d[0] }}" cy="{{ d[1] }}" r="{{ d[2] }}"/>{% endfor %}</g>
+    {%- endfor %}
+    {#- Smaller maps draw larger on screen, so their labels shrink to stay close to the statewide maps. -#}
+    {%- set k = (m.width / 640) ** 0.5 %}
+    <g class="dm-places" font-size="{{ (12.5 * k) | round(2) }}">{% for p in m.places %}<circle cx="{{ p.x }}" cy="{{ p.y }}" r="{{ (2.6 * k) | round(2) }}"/><text x="{{ (p.x + (p.tx - p.x) * k) | round(1) }}" y="{{ (p.y + (p.ty - p.y) * k) | round(1) }}">{{ p.label }}</text>{% endfor %}</g>
+  </svg>
+  {%- if it.legend %}
+  <ul class="mlegend">
+    {%- for l in it.legend %}
+    <li><span class="sw" style="background:var(--{{ l.color }})"></span><span>{{ l.label | safe }}</span>{% if l.n %}<span class="n">{{ l.n }}</span>{% endif %}</li>
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+  {%- if it.foot %}<figcaption class="foot-note">{{ it.foot | safe }}</figcaption>{% endif %}
+</figure>
+
+{%- elif it.type == "bars" %}
+<div class="panel">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <ul class="bars">
+    {%- for b in it.bars %}
+    <li><span class="bl">{{ b.label | safe }}{% if b.sub %}<small>{{ b.sub }}</small>{% endif %}</span><span class="bt"><span class="bf{% if b.tone %} {{ b.tone }}{% endif %}" style="width:{{ b.pct }}%"></span></span><span class="bv">{{ b.value }}</span></li>
+    {%- endfor %}
+  </ul>
+  {{ foot(it) }}
+</div>
+
+{%- elif it.type == "table" %}
+<div class="panel">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <div class="tscroll">
+    <table class="dtable">
+      <thead><tr>{% for c in it.columns %}<th{% if c.align == "r" %} class="r"{% endif %} scope="col">{{ c.label | safe }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {%- for row in it.rows %}
+        <tr>{% for c in row %}{% set col = it.columns[loop.index0] %}<td class="{{ 'r' if col.align == 'r' }}{{ ' nm' if loop.first }}">{{ cell(c) }}</td>{% endfor %}</tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+  {{ foot(it) }}
+</div>
+
+{%- elif it.type == "facts" %}
+<div class="panel">
+  {%- if it.title %}<h3>{{ it.title }}</h3>{% endif %}
+  <dl class="facts">
+    {%- for f in it.items %}
+    <div><dt>{% if f.tier is defined %}{{ tier(f.tier) }}{% else %}{{ f.key | safe }}{% endif %}</dt><dd>{{ f.text | safe }}</dd></div>
+    {%- endfor %}
+  </dl>
+  {{ foot(it) }}
+</div>
+{%- endif %}
+{% endmacro %}
+
+{#- Layout wrappers: "cols" sets items side by side, "stack" stacks them; both nest. -#}
+{% macro part(it) %}
+{%- if it.type == "cols" or it.type == "stack" %}
+<div class="{{ it.type }}{% if it.layout %} {{ it.layout }}{% endif %}">{% for x in it.items %}{{ part(x) }}{% endfor %}</div>
+{%- else %}{{ leaf(it) }}{% endif %}
+{% endmacro %}
+
+{% block content %}
+<header class="intro">
+  <p class="sub">{{ (report.intro or report.summary) | safe }}</p>
+</header>
+
+{%- for s in report.sections %}
+<section class="block" id="{{ s.id }}" aria-labelledby="{{ s.id }}-title">
+  <div class="bhead"><h2 id="{{ s.id }}-title">{{ s.title }}</h2>{% if s.sub %}<p>{{ s.sub | safe }}</p>{% endif %}</div>
+  <div class="stack">
+    {%- for it in s.items %}{{ part(it) }}{% endfor %}
+  </div>
+</section>
+{%- endfor %}
+
+<section class="block" id="methods" aria-labelledby="m-title">
+  <div class="bhead"><h2 id="m-title">Methods and sources</h2></div>
+  <div class="methods">
+    {%- for m in report.methods %}
+    <p><b>{{ m.title }}</b> {{ m.text | safe }}</p>
+    {%- endfor %}
+  </div>
+  <p class="editions">{{ edition.label }} edition. Built from public data only.</p>
+</section>
+{% endblock %}
