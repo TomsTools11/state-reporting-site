@@ -1,7 +1,6 @@
 {
   "name": "GOAL State Reports",
   "featured": "ok-home-risk",
-  "cta": { "label": "Book a Demo", "url": "" },
   "tagline": "Weather and market reports by state, built from public data.",
   "states": {
     "ok": {
