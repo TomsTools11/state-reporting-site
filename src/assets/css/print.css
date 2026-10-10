@@ -1,55 +1,114 @@
-/* Print and save-as-PDF: US Letter, light header, one map per layer with its legend. */
+/* Print and save-as-PDF: US Letter on the GOAL light theme, one map per layer with its legend. */
 
 @page { size: letter; margin: .5in }
 * { -webkit-print-color-adjust: exact; print-color-adjust: exact }
+
+:root {
+  color-scheme: light;
+  --ground: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #ebf0f9;
+  --border-subtle: #dbe2ec;
+  --border-mid: #dbe2ec;
+  --border-strong: #94a3b8;
+  --ink: #001020;
+  --ink-soft: #334155;
+  --ink-muted: #475569;
+  --brand-text: #0569c4;
+  --brand-border: rgba(5, 123, 229, .45);
+
+  /* Light map colors: darker = higher risk on paper */
+  --sev-0: #f2c4ad; --sev-1: #e08868; --sev-2: #bd4535; --sev-3: #6e1a1f;
+  --wf-0: #f3dca6; --wf-1: #dfa94a; --wf-2: #a8661a; --wf-3: #5c330b;
+  --review: #8b939e;
+  --other: #cfd6de;
+  --nodata: #e4e7eb;
+  --map-ground: #e4e7eb;
+  --zip-edge: #ffffff;
+  --county-edge: #2e343c;
+  --state-edge: #001020;
+  --rise: #0b0f14;
+  --region-dim: #ffffff;
+  --place-ink: #001020;
+  --place-halo: #ffffff;
+  --pin: #001020;
+}
+
 html { scroll-behavior: auto }
-body { background: #fff; font-size: 10pt }
-.shell { display: block; max-width: none; min-height: 0 }
-.side { display: none }
-.main { padding: 0 }
-a { color: inherit; text-decoration: none }
+body { background: #fff; color: var(--ink); font-size: 10pt }
+a { color: inherit }
 
-.print-head { display: flex; align-items: center; gap: 22px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 2px solid var(--navy) }
+.site-header, .site-footer, .skip, .crumbs, .report-actions, .pills, .hero-figure, .hero .actions, .btn-text { display: none !important }
+.wrap { max-width: none; padding: 0 }
+.hero { background: none; border: 0; overflow: visible }
+.hero::before { display: none }
+.hero > .wrap { padding: 0 }
+.hero-split, .hero-row { display: block; padding: 0; margin: 0 }
+.hero-copy { display: block }
+.hero .badge, .hero .display { display: none }
+.lead { font-size: 10pt; line-height: 1.5; max-width: none; color: var(--ink-soft); margin-bottom: 10px }
+
+.print-head { display: flex; align-items: center; gap: 22px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 2px solid #001020 }
 .print-head img { height: 22px; width: auto; flex-shrink: 0 }
-.print-head > div { border-left: 1px solid var(--line); padding-left: 22px }
-.pt-eb { font-size: 7.5pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--blue) }
-.pt-title { font-size: 17pt; font-weight: 900; color: var(--ink); letter-spacing: -.02em; line-height: 1.1 }
-.pt-meta { font-size: 8.5pt; color: var(--muted); margin-top: 2px }
+.print-head > div { border-left: 1px solid var(--border-subtle); padding-left: 22px }
+.pt-eb { font-size: 7.5pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--brand-text) }
+.pt-title { font: 800 17pt/1.1 var(--font-display); color: var(--ink); letter-spacing: -.02em }
+.pt-meta { font-size: 8.5pt; color: var(--ink-muted); margin-top: 2px }
 
-.intro { margin-bottom: 10px; max-width: none }
-.intro .sub { font-size: 10pt }
-.block { margin-bottom: 14px }
-.bhead { margin-bottom: 8px }
-.bhead h2 { font-size: 13pt }
-.bhead p { font-size: 8.5pt }
+.section, .map-section { padding: 0; margin-bottom: 14px }
+.section:last-child { padding-bottom: 0 }
+.sec-head { margin-bottom: 8px; display: block }
+.sec-head p { max-width: none; font-size: 8.5pt }
+.section-title { font-size: 13pt; letter-spacing: 0 }
+.section-title br, .section-title .muted { display: none }
+.sub-title { font-size: 12pt }
 
 /* The interactive map is replaced by static maps built for print */
 .controls, .mapgrid, .hint, .tip { display: none !important }
 .print-maps { display: block }
-.print-map { display: grid; grid-template-columns: minmax(0, 1fr) 2.05in; gap: .2in; align-items: start; break-inside: avoid; padding: 0 0 .12in; margin-bottom: .12in; border-bottom: 1px solid var(--line) }
-.print-map h3 { font-size: 11pt; font-weight: 800; color: var(--ink) }
-.print-map .note { font-size: 8pt; color: var(--muted); margin: 1px 0 6px }
+.print-map { display: grid; grid-template-columns: minmax(0, 1fr) 2.05in; gap: .2in; align-items: start; break-inside: avoid; padding: 0 0 .12in; margin-bottom: .12in; border-bottom: 1px solid var(--border-subtle) }
+.print-map h3 { font: 700 11pt var(--font-display); color: var(--ink) }
+.print-map .note { font-size: 8pt; color: var(--ink-muted); margin: 1px 0 6px }
 .print-map svg { display: block; width: 100%; height: auto }
 .print-map svg path { vector-effect: non-scaling-stroke }
 .print-map .pm-legend { padding-top: 34px }
-.print-map h4 { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink); margin-bottom: 6px }
+.print-map h4 { font-size: 7.5pt; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--ink); margin-bottom: 6px }
 .print-map .legend { gap: 4px }
 .print-map .legend li { grid-template-columns: 9px 1fr; gap: 6px; font-size: 8pt; row-gap: 0 }
 .print-map .legend .n { grid-column: 2; text-align: left; font-size: 7pt }
-.print-map .sw { width: 9px; height: 9px; border-radius: 2px }
-.print-map .legend-foot { font-size: 7pt; margin-top: 6px }
-.print-selected { break-inside: avoid; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: .12in; max-width: 4in }
+.print-map .sw { width: 9px; height: 9px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12) }
+.print-map .legend-foot { font-size: 7pt; margin-top: 6px; padding-top: 0; border: 0 }
+.print-selected { break-inside: avoid; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px 12px; margin-bottom: .12in; max-width: 4in }
 .print-selected h3 { font-size: 8pt; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px }
+.print-selected .place { font-size: 11pt }
 .print-selected dl.kv { font-size: 8.5pt }
+.print-selected dl.kv dt, .print-selected dl.kv dd { padding: 3px 0 }
 
-#key-figures { break-inside: avoid }
-.kgrid { grid-template-columns: repeat(3, 1fr); gap: 8px }
-.kc { padding: 10px 12px; border-radius: 8px }
-.kc .v { font-size: 16pt }
-.kc .k { font-size: 8.5pt; margin-top: 5px }
-.methods { gap: 5px; max-width: none }
-.methods p { font-size: 8pt; line-height: 1.45 }
-.editions { font-size: 8pt; margin-top: 6px }
+.key-figures, .stat-grid { break-inside: avoid; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 14px }
+.stat-src { margin: 0 0 6px; font-size: 8pt }
+.stat { padding: 10px 12px; border-radius: 8px; box-shadow: none }
+.stat-v { font-size: 16pt; letter-spacing: 0 }
+.stat-k { font-size: 8.5pt; margin-top: 5px; color: var(--ink-soft) }
 
-.rgrid { grid-template-columns: repeat(2, 1fr) }
-.rcard { break-inside: avoid }
+.table-box { overflow: visible; border-radius: 8px }
+.dtable { min-width: 0; font-size: 8pt; line-height: 1.3 }
+.dtable th { padding: 6px 6px; font-size: 7pt }
+.dtable td { padding: 5px 6px }
+.dtable th:first-child, .dtable td:first-child { padding-left: 8px }
+.dtable th:last-child, .dtable td:last-child { padding-right: 8px }
+.dtable .rank { font-size: 8pt }
+.dtable tr { break-inside: avoid }
+
+.methods { display: grid; grid-template-columns: 1fr 1fr; gap: 6px }
+.method { padding: 8px 10px; border-radius: 8px; break-inside: avoid }
+.method h3 { font-size: 9pt; margin-bottom: 2px }
+.method p { font-size: 7.5pt; line-height: 1.4 }
+.tag { font-size: 7pt; padding: 1px 8px }
+.editions { font-size: 7.5pt }
+
+.state-panel, .report-feature { box-shadow: none; break-inside: avoid }
+.rgrid { grid-template-columns: repeat(2, 1fr); padding: 10px }
+.rcard, .layer-card { break-inside: avoid; box-shadow: none }
+.feature-grid, .layer-cards { grid-template-columns: repeat(3, 1fr); gap: 8px }
+.feature { padding: 10px; gap: 6px }
+.feature p, .lc-text { font-size: 8pt }

@@ -1,7 +1,13 @@
 {
   "name": "GOAL State Reports",
+  "featured": "ok-home-risk",
+  "cta": { "label": "Book a Demo", "url": "" },
   "tagline": "Weather and market reports by state, built from public data.",
   "states": {
-    "ok": { "name": "Oklahoma", "postal": "OK" }
+    "ok": {
+      "name": "Oklahoma",
+      "postal": "OK",
+      "intro": "Severe weather, wildfire and homeowner demographics for all 664 Oklahoma ZIP codes and 77 counties. Use them to decide where your agency spends on leads and inbound calls."
+    }
   }
 }
